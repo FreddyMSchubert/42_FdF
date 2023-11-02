@@ -1,0 +1,1 @@
+- check whether wildcards in makefile are allowed in this project, for now its fine.
