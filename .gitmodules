@@ -1,3 +1,12 @@
 [submodule "lib/MLX42"]
 	path = lib/MLX42
 	url = https://github.com/codam-coding-college/MLX42
+[submodule "src/imports/libft"]
+	path = src/imports/libft
+	url = https://github.com/FreddyMSchubert/42_libft
+[submodule "src/imports/get_next_line"]
+	path = src/imports/get_next_line
+	url = https://github.com/FreddyMSchubert/42_get_next_line
+[submodule "src/imports/ft_printf"]
+	path = src/imports/ft_printf
+	url = https://github.com/FreddyMSchubert/42_ft_printf
