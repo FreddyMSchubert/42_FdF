@@ -1,5 +1,10 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.0
+- Imported MLX42 lib and turned all imports into submodules.
+- tested input_manager.c, fully functional
+- started work on draw_manager.c
+
 ### v0.1.0
 - Added printf, get_next_line, libft and the test maps
 - created header & makefile
