@@ -1,37 +1,32 @@
-# Compiler to use
-CC = gcc
+NAME = fdf
 
-# Compiler flags
-CFLAGS = -Wall -Wextra -Werror
-
-# Source files (including subfolders)
-SRC = $(shell find . -name "*.c")
-
-# Object files
+SRC = $(shell find ./src -name "*.c")
 OBJ = $(SRC:.c=.o)
+LIBMLX	:= ./lib/MLX42
 
-# Executable name
-EXEC = etc/fdf
+HEADERS	:= -I ./include -I $(LIBMLX)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+CFLAGS	:= -Wunreachable-code -Ofast
 
-all: $(EXEC)
-
-$(EXEC): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+$(NAME): $(OBJ)
+	@cc $(OBJ) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@cc $(CFLAGS) -Ofast -o $@ -c $< $(HEADERS)
 
+all: libmlx $(NAME)
 clean:
-	rm -f $(OBJ)
-
+	@rm -f $(OBJ)
+	@rm -rf $(LIBMLX)/build
 fclean: clean
-	rm -f $(EXEC)
-
+	@rm -f $(NAME)
 re: fclean all
-
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 comp:
-	make re
-	make clean
-	clear
+	@make fclean
+	@make all
+	@make clean
+	./fdf
 
-.PHONY: all clean fclean re comp
+.PHONY: all clean fclean re comp libmlx

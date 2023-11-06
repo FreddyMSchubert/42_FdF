@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   input_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:40:11 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/02 10:01:58 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/06 08:05:48 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 	general function that are helpful
 */
 
-#include "fdf.h"
+#include "../../fdf.h"
 
 // @brief	frees a twodimensional array
 void	free_rec(void **blob)
@@ -24,7 +24,7 @@ void	free_rec(void **blob)
 	counter = 0;
 	if (blob != NULL)
 	{
-		while (blob[counter] != '\0')
+		while (blob[counter] != NULL)
 		{
 			free(blob[counter]);
 			counter++;
@@ -35,7 +35,25 @@ void	free_rec(void **blob)
 
 void	free_rec_rec(void ***blob)
 {
-	
+	int		counter1;
+	int		counter2;
+
+	if (blob != NULL)
+	{
+		counter1 = 0;
+		while (blob[counter1] != NULL)
+		{
+			counter2 = 0;
+			while (blob[counter1][counter2] != NULL)
+			{
+				free(blob[counter1][counter2]);
+				counter2++;
+			}
+			free (blob[counter1]);
+			counter1++;
+		}
+		free(blob);
+	}
 }
 
 // @brief		turns hexa strings (e.g. colors) into ints. doesnt handle neg.
@@ -46,8 +64,10 @@ int	ft_hex_atoi(const char *s)
 
 	i = 0;
 	value = 0;
+	if (s[i] == '0' && ft_toupper(s[i + 1]) == 'X')
+		i += 2;
 	while (ft_isdigit(s[i]) || \
-		(ft_toupper(s[i]) >= 'a' && ft_toupper(s[i]) <= 'f'))
+		(s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'))
 	{
 		value = (value * 16);
 		if (ft_isdigit(s[i]))

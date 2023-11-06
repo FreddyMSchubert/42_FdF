@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 07:07:11 by fschuber          #+#    #+#             */
-/*   Updated: 2023/10/26 08:05:52 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/03 06:54:25 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	gnl_strchr(char *str, int c)
 /*
 	@returns		Length of inputted string;
 */
-int	ft_strlen(const char *str)
+int	gnl_strlen(const char *str)
 {
 	int	counter;
 
@@ -54,9 +54,9 @@ char	*gnl_substr(char const *s, int start, size_t len)
 	int			counter;
 
 	substr_len = len;
-	if (ft_strlen(s) - start < (int) len)
-		substr_len = ft_strlen(s) - start;
-	if (substr_len < 0 || ft_strlen(s) < start)
+	if (gnl_strlen(s) - start < (int) len)
+		substr_len = gnl_strlen(s) - start;
+	if (substr_len < 0 || gnl_strlen(s) < start)
 		substr_len = 0;
 	p = (char *)malloc(substr_len + 1);
 	if (p == NULL)
@@ -74,7 +74,7 @@ char	*gnl_substr(char const *s, int start, size_t len)
 /*
 	@brief		Returns a new string combined of s1 and s2 without freeing anything;
 */
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*gnl_strjoin(char const *s1, char const *s2)
 {
 	size_t		s1size;
 	size_t		s2size;
@@ -84,8 +84,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	counter = 0;
 	if (s1 == NULL && s2 == NULL)
 		return (gnl_substr("", 0, 0));
-	s1size = ft_strlen(s1);
-	s2size = ft_strlen(s2);
+	s1size = gnl_strlen(s1);
+	s2size = gnl_strlen(s2);
 	p = (char *)malloc(s1size + s2size + 1);
 	if (p == NULL)
 		return (NULL);

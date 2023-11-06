@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 07:18:01 by fschuber          #+#    #+#             */
-/*   Updated: 2023/10/27 12:45:46 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/03 06:55:08 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	get_next_chunk(char **left, int filedes, int *read_ret)
 		return (free (buffer), *read_ret);
 	buffer[*read_ret] = '\0';
 	temp = *left;
-	*left = ft_strjoin(temp, buffer);
+	*left = gnl_strjoin(temp, buffer);
 	free (buffer);
 	free (temp);
 	if (!*left)
@@ -47,7 +47,7 @@ char	*split_off_line(char **left, int split_i)
 	char	*temp_return;
 
 	temp_return = gnl_substr(*left, 0, split_i);
-	temp_left = gnl_substr(*left, split_i, ft_strlen(*left) - split_i);
+	temp_left = gnl_substr(*left, split_i, gnl_strlen(*left) - split_i);
 	free(*left);
 	*left = temp_left;
 	return (temp_return);
@@ -67,14 +67,14 @@ char	*get_next_line(int filedes)
 	while (gnl_strchr(left, '\n') < 0 && read_ret > 0)
 		if (get_next_chunk(&left, filedes, &read_ret) == -1)
 			return (free (left), left = NULL, NULL);
-	if (ft_strlen(left) > 0)
+	if (gnl_strlen(left) > 0)
 	{
 		if (gnl_strchr(left, '\n') == -2)
-			return (split_off_line(&left, ft_strlen(left)));
+			return (split_off_line(&left, gnl_strlen(left)));
 		else
 			return (split_off_line(&left, gnl_strchr(left, '\n') + 1));
 	}
-	if (ft_strlen(left) == 0 && read_ret == 0)
+	if (gnl_strlen(left) == 0 && read_ret == 0)
 		return (free (left), left = NULL, NULL);
 	return (free(left), left = NULL, NULL);
 }
