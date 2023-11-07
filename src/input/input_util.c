@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:40:11 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/06 08:05:48 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/07 08:51:15 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "../../fdf.h"
 
 // @brief	frees a twodimensional array
-void	free_rec(void **blob)
+void	fdf_free_rec(void **blob)
 {
 	int		counter;
 
@@ -33,7 +33,7 @@ void	free_rec(void **blob)
 	}
 }
 
-void	free_rec_rec(void ***blob)
+void	fdf_free_rec_rec(void ***blob)
 {
 	int		counter1;
 	int		counter2;
@@ -57,7 +57,7 @@ void	free_rec_rec(void ***blob)
 }
 
 // @brief		turns hexa strings (e.g. colors) into ints. doesnt handle neg.
-int	ft_hex_atoi(const char *s)
+int	fdf_ft_hex_atoi(const char *s)
 {
 	int		i;
 	int		value;

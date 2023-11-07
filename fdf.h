@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/06 08:40:44 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:26:44 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,30 @@ typedef struct t_hm_node
 	int		z_coord;
 	int		color_hex;
 }				t_hm_node;
-
-// Util functions
-
-void		free_rec(void **blob);
-void		free_rec_rec(void ***blob);
-int			ft_hex_atoi(const char *s);
+typedef struct t_pixel
+{
+	int		x_coord;
+	int		y_coord;
+	int		color;
+}			t_pixel;
 
 // Input functions
 
-t_hm_node	*create_hm_node(char *str, int x, int y);
-t_hm_node	**create_hm_node_line(char **strings, int y_counter);
-t_hm_node	***create_hm_node_twod_arr(char ***strings);
+t_hm_node	*fdf_create_hm_node(char *str, int x, int y);
+t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter);
+t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings);
+t_hm_node	***fdf_get_heightmap(int fd);
+
+void		fdf_free_rec(void **blob);
+void		fdf_free_rec_rec(void ***blob);
+int			fdf_ft_hex_atoi(const char *s);
+
+// Drawing functions
+
+mlx_t		*fdf_init(void);
+
+void		fdf_mlx_error(void);
+int			get_rgba(int r, int g, int b, int a);
+int			get_col(int rgba, char col);
 
 #endif
