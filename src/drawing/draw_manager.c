@@ -1,49 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_manager.c                                     :+:      :+:    :+:   */
+/*   draw_manager.c                                     :k+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 08:51:23 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/07 13:36:39 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/08 09:41:24 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fdf.h"
+#include <math.h>
+
+// @brief		Draws pixel pxl on lmx at specified position and color
+// int	draw_pixel(mlx_t mlx, t_pixel pxl)
+// {
+	
+// }
+
+// @brief		gets step size for a gradient of length l
+//				between c1 and c2 on color channel col
+static double	get_color_gradient_step(int l, int c1, int c2, char col)
+{
+	double		step;
+
+	step = (double)(get_col(c2, col) - get_col(c1, col)) / (l - 1);
+	return (step);
+}
 
 /*
-	@brief			Returns an array of pixels that are a line using Bresenham
-	@param mlx 		Window to draw to
-	@param a 		Pixel 1. Must never be right of above Pixel 2
-	@param b 		Pixel 2. Must never be left or below Pixel 1
+	@returns		Dynamically allocated array of length l containing a
+					color feed between including the colors c1 and c2
 */
-void	draw_line(mlx_t mlx, t_pixel a, t_pixel b)
+int	*get_gradient(int l, int c1, int c2)
 {
-	int			error;
-	t_pixel		*pixels;
-	t_pixel		curr_pixel;
+	int		i;
+	int		*colors;
 
-	curr_pixel = a;
-	if ((b.x_coord - a.x_coord) > (b.y_coord - a.y_coord))
+	i = 0;
+	colors = malloc(sizeof(int) * l);
+	if (!colors)
+		return (NULL);
+	colors[0] = c1;
+	while (i < l)
 	{
-		error = (b.x_coord - a.x_coord) / 2;
-		pixels = malloc(sizeof(t_pixel) * (b.x_coord - a.x_coord));
-		while (curr_pixel.x_coord < b.x_coord)
-		{
-			pixels[curr_pixel.x_coord - a.x_coord] = curr_pixel;
-			error -= (b.y_coord - a.y_coord);
-			if (error >= 0)
-				continue ;
-			curr_pixel.y_coord++;
-			error = error + (b.x_coord - a.x_coord);
-		}
+		colors[i] = get_rgba(\
+			get_col(c1, 'r') + i * get_color_gradient_step(l, c1, c2, 'r'), \
+			get_col(c1, 'g') + i * get_color_gradient_step(l, c1, c2, 'g'), \
+			get_col(c1, 'b') + i * get_color_gradient_step(l, c1, c2, 'b'), \
+			get_col(c1, 'a') + i * get_color_gradient_step(l, c1, c2, 'a'));
+		i++;
 	}
-	else
-	{
-		error = (b.y_coord - a.y_coord) / 2;
-		pixels = malloc(sizeof(t_pixel) * (b.y_coord - a.y_coord));
-	}
+	colors[l - 1] = c2;
+	return (colors);
 }
 
 mlx_t	*fdf_init(void)
@@ -64,9 +74,4 @@ mlx_t	*fdf_init(void)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 	return (mlx);
-}
-
-int	main(void)
-{
-	fdf_init();
 }

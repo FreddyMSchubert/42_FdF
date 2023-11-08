@@ -1,5 +1,9 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.3
+- Added get_gradient function to get gradient between two colors
+- Implemented Bresenhams Algo, but there are occasional checksums.
+
 ### v0.3.2
 - Started bresenhams-algo.c implementation
 

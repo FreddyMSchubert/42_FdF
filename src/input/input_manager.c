@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/07 08:53:34 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/08 07:46:11 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 	return (node_twod_arr);
 }
 
+/*
+	@brief		turns filedes content of input coords into a 2d array
+	@returns	new dynamically allocated hm_node 2d array based on input
+*/
 t_hm_node	***fdf_get_heightmap(int fd)
 {
 	t_hm_node	***heightmap;

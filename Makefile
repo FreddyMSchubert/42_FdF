@@ -17,18 +17,18 @@ $(NAME): $(OBJ)
 all: $(NAME)
 clean:
 	@rm -f $(OBJ)
-	@rm -rf $(LIBMLX)/build
 fclean: clean
+	@rm -rf $(LIBMLX)/build
 	@rm -f $(NAME)
 re: fclean all
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 comp:
 	@make fclean
-	@cd src && norminette && cd ..
 	@make libmlx
 	@make all
 	@make clean
 	./fdf
+	@cd src && norminette && cd ..
 
 .PHONY: all clean fclean re comp libmlx

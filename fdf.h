@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/07 13:26:44 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/08 07:50:22 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int			fdf_ft_hex_atoi(const char *s);
 // Drawing functions
 
 mlx_t		*fdf_init(void);
+int			*get_gradient(int l, int c1, int c2);
+int			draw_pixel(mlx_t mlx, t_pixel pxl);
 
 void		fdf_mlx_error(void);
 int			get_rgba(int r, int g, int b, int a);
