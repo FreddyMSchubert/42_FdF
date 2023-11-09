@@ -1,5 +1,9 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.6
+- Reordering. drawing util now entirely for gradients, window management now in fdf.c, main file
+- Started with the main loop of the program, stopped.
+
 ### v0.3.5
 - Added draw_line function which draws line with gradient between two points using Bresenhams Algorithm.
 - In other words, it works. The difficult part is done. (i think / hope)

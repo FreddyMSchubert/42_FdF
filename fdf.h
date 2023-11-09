@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/09 08:35:38 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/09 13:24:07 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int			draw_line(mlx_image_t *img, t_pixel a, t_pixel b);
 
 void		fdf_mlx_error(void);
 int			get_rgba(int r, int g, int b, int a);
-int			get_col(int rgba, char col);
+int			get_col_rgba(int rgba, char col);
+int			get_col_rgb(int rgb, char col);
 
 #endif
