@@ -6,18 +6,12 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 08:51:23 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/09 08:12:14 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:49:40 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fdf.h"
 #include <math.h>
-
-// @brief		Draws pixel pxl on lmx at specified position and color
-// int	draw_pixel(mlx_t mlx, t_pixel pxl)
-// {
-	
-// }
 
 // @brief		gets step size for a gradient of length l
 //				between c1 and c2 on color channel col
@@ -70,8 +64,16 @@ mlx_t	*fdf_init(void)
 		fdf_mlx_error();
 	mlx_put_pixel(img, DEFAULT_WIDTH / 2 - 1, \
 		DEFAULT_HEIGHT / 2 - 1, 0xFF0000FF);
+	draw_line(img, (t_pixel){DEFAULT_WIDTH - 100, DEFAULT_HEIGHT - 1, \
+					get_rgba(255, 0, 0, 255)}, \
+					(t_pixel){0, 0, get_rgba(0, 255, 0, 255)});
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 	return (mlx);
+}
+
+int	main(void)
+{
+	fdf_init();
 }

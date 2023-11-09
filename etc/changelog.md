@@ -1,5 +1,9 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.5
+- Added draw_line function which draws line with gradient between two points using Bresenhams Algorithm.
+- In other words, it works. The difficult part is done. (i think / hope)
+
 ### v0.3.4
 - Handled 0 division in get_color_gradient_step
 - Fixed checksum issues in bresenhams algo, now functional

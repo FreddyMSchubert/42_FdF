@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:38:42 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/09 08:17:25 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:35:53 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ static t_pixel	*draw_line_dom_y(t_pixel a, t_pixel b)
 }
 
 /*
-	@brief		Takes in two coordinates and interpolates their positions and color. 
+	@brief		Takes in two coordinates and interpolates their positions and color. \n
+				Not designed to handle anything over including INT MAX or under 0
 	@returns	Dynamically allocated array with all pixels 
 				between including a and b.
-	@brief		Not designed to handle anything over including INT MAX or under 0
 */
-t_pixel	*get_colored_pixel_array(t_pixel a, t_pixel b)
+static t_pixel	*get_colored_pixel_array(t_pixel a, t_pixel b)
 {
 	t_pixel		*pixels;
 	int			*colors;
@@ -113,4 +113,30 @@ t_pixel	*get_colored_pixel_array(t_pixel a, t_pixel b)
 		return (free(pixels), free(colors), NULL);
 	free (colors);
 	return (pixels);
+}
+
+/*
+	@brief		Draws a line between two pixels on screen img
+*/
+int	draw_line(mlx_image_t *img, t_pixel a, t_pixel b)
+{
+	t_pixel		*pixels;
+	int			len;
+	int			counter;
+
+	pixels = get_colored_pixel_array(a, b);
+	if (!pixels)
+		return (0);
+	if (abs(b.x_coord - a.x_coord) >= abs(b.y_coord - a.y_coord))
+		len = abs(b.x_coord - a.x_coord) + 1;
+	else
+		len = abs(b.y_coord - a.y_coord) + 1;
+	counter = 0;
+	while (counter < len)
+	{
+		mlx_put_pixel(img, pixels[counter].x_coord, pixels[counter].y_coord, \
+						pixels[counter].color);
+		counter ++;
+	}
+	return (1);
 }
