@@ -1,5 +1,9 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.4
+- Handled 0 division in get_color_gradient_step
+- Fixed checksum issues in bresenhams algo, now functional
+
 ### v0.3.3
 - Added get_gradient function to get gradient between two colors
 - Implemented Bresenhams Algo, but there are occasional checksums.

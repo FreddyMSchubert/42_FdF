@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_manager.c                                     :k+:      :+:    :+:   */
+/*   draw_manager.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 08:51:23 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/08 09:41:24 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:12:14 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static double	get_color_gradient_step(int l, int c1, int c2, char col)
 {
 	double		step;
 
+	if (l < 2)
+		return (c1);
 	step = (double)(get_col(c2, col) - get_col(c1, col)) / (l - 1);
 	return (step);
 }
@@ -42,7 +44,6 @@ int	*get_gradient(int l, int c1, int c2)
 	colors = malloc(sizeof(int) * l);
 	if (!colors)
 		return (NULL);
-	colors[0] = c1;
 	while (i < l)
 	{
 		colors[i] = get_rgba(\
@@ -52,7 +53,6 @@ int	*get_gradient(int l, int c1, int c2)
 			get_col(c1, 'a') + i * get_color_gradient_step(l, c1, c2, 'a'));
 		i++;
 	}
-	colors[l - 1] = c2;
 	return (colors);
 }
 
