@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:11:21 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/09 13:23:43 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 08:27:49 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,14 @@ int	get_col_rgb(int rgb, char col)
 	if (col == 'b')
 		return (rgb & 0xFF);
 	return (0);
+}
+
+// @brief			Takes in a number in rgb format and returns in rgba format
+//					e.g. hexadecimal to rgba format
+int	hex_to_rgba(int hex, int alpha)
+{
+	return (get_rgba(get_col_rgb(hex, 'r'), \
+					get_col_rgb(hex, 'g'), \
+					get_col_rgb(hex, 'b'), \
+					alpha));
 }

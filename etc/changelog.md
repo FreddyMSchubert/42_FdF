@@ -1,5 +1,9 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.7 - 10.11.23
+- Added "terminator" as sentinel value field to t_hm_node and set it in input manager to make looping easy going forward.
+- successful conversion of input text to nodes to pixels. color values get turned into right format and coordinates get turned into correct pixels to create 3d effect. line drawing time!
+
 ### v0.3.6
 - Reordering. drawing util now entirely for gradients, window management now in fdf.c, main file
 - Started with the main loop of the program, stopped.
