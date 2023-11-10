@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 12:41:22 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:07:59 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int			fdf_ft_hex_atoi(const char *s);
 
 int			*get_grad(int l, int c1, int c2);
 int			draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b);
+int			smaller_than(int nbr1, int nbr2);
 
 int			get_rgba(int r, int g, int b, int a);
 int			get_col_rgba(int rgba, char col);

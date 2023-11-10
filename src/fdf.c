@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 13:07:48 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:16:47 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ void	fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap)
 	int		x;
 	int		y;
 
-	t_pixel pix1 = (t_pixel){100, 245, 0xFFFFFF, 0};
-	t_pixel pix2 = (t_pixel){100, 255, 0xFFFFFF, 0};
-	draw_line(img, &pix1, &pix2);
 	width = get_pixelmap_width(pixelmap);
 	height = get_pixelmap_height(pixelmap);
 	y = 0;

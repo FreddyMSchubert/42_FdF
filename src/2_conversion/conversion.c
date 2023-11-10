@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 06:28:47 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 11:38:34 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:40:54 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,3 @@ t_pixel	***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes)
 	}
 	return (pixels);
 }
-
-// #include <fcntl.h>
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	t_pixel		***pixels;
-// 	t_hm_node	***nodes;
-// 	int			fd = open("./etc/test_maps/42.fdf", O_RDONLY);
-
-// 	if (fd == -1)
-// 	{
-// 		perror("Error opening file");
-// 		return (1);
-// 	}
-// 	nodes = fdf_get_heightmap(fd);
-// 	ft_printf("Successfully received nodes. Now converting to pixels!\n");
-// 	pixels = convert_hm_node_grid_to_pixel_grid(nodes);
-// 	for (int y = 0; pixels[y][0]->terminator != 1; y++)
-// 	{
-// 		for (int x = 0; pixels[y][x]->terminator != 1; x++)
-// 		{
-// 			ft_printf("woo! (%d|%d) - (%d, %d, %d, %d)\n", pixels[y][x]->x_coord, pixels[y][x]->y_coord, get_col_rgba(pixels[y][x]->color, 'r'), get_col_rgba(pixels[y][x]->color, 'g'), get_col_rgba(pixels[y][x]->color, 'b'), get_col_rgba(pixels[y][x]->color, 'a'));
-// 		}
-// 		ft_printf("\n");
-// 	}
-// }

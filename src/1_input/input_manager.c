@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 12:46:25 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:14:25 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
 	new_node->terminator = terminator;
 	if (!split_str[1])
 	{
-		new_node->z_coord = ft_atoi(split_str[0]) * COORD_SPREAD;
+		new_node->z_coord = ft_atoi(split_str[0]);
 		new_node->color_hex = DEFAULT_NODE_COLOR;
 	}
 	else
 	{
-		new_node->z_coord = ft_atoi(split_str[0]) * COORD_SPREAD;
+		new_node->z_coord = ft_atoi(split_str[0]);
 		new_node->color_hex = fdf_ft_hex_atoi(split_str[1]);
 	}
 	fdf_free_rec((void **)split_str);
@@ -137,7 +137,7 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	input_twod_arr[y_counter] = NULL;
 	ft_printf("\033[33mLOGGER\033[0m: Read out data from input file.\n");
 	heightmap = fdf_create_hm_node_twod_arr(input_twod_arr);
-	ft_printf("\033[33mLOGGER\033[0m: Converted input data into node format.\n");
+	ft_printf("\033[33mLOGGER\033[0m: Converted input into node format.\n");
 	fdf_free_rec_rec((void ***)input_twod_arr);
 	return (heightmap);
 }

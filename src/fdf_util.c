@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 11:43:27 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 12:48:41 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:38:31 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	get_pixelmap_width(t_pixel	***pixelmap)
 {
 	int		width;
 
-
 	width = 0;
 	while (pixelmap[0][width]->terminator != 1)
 	{
@@ -45,7 +44,6 @@ int	get_pixelmap_width(t_pixel	***pixelmap)
 int	get_pixelmap_height(t_pixel	***pixelmap)
 {
 	int		height;
-
 
 	height = 0;
 	while (pixelmap[height][0]->terminator != 1)

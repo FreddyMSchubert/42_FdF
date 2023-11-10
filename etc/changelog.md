@@ -1,5 +1,11 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.9 - 10.11.23
+- Various Norminette Improvements. Now flawless
+- Removed testing code from conversion.c
+- fixed problem in bresenhams algo where all the pixels in one returned array would point to a single pixel by adding a function that allocates a new pixel. moved smaller than to bresen_util to reduce number of functions in a single file.
+- It works!
+
 ### v0.3.8 - 10.11.23
 - Added log function to simplify clear logging of program states. It's colorful, too! + Added basic error statements + removed previous unnecessary print statements
 - Updated bresenhams-algo.c to work with mallocated pixels
