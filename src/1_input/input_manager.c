@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/08 07:46:11 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 08:08:48 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,26 @@
 #include "../../fdf.h"
 
 /*
-	@brief			creates a new hm node based on coords and file input
-	@param str		string from input for height/color, e.g. "20,0xFF0000"; "10"
-	@param x		x Coordinate
-	@param y		y Coordinate
-	@returns		new dynamically allocated hm_node based on input
+	@brief				creates a new hm node based on coords and file input
+	@param str			string from input for height/color, e.g. "20,0xFF0000"; "10"
+	@param x			x Coordinate
+	@param y			y Coordinate
+	@param terminator	serves as sentinel value. should be 0 by default
+	@returns			new dynamically allocated hm_node based on input
 */
-t_hm_node	*fdf_create_hm_node(char *str, int x, int y)
+t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
 {
 	t_hm_node		*new_node;
 	char			**split_str;
 
+	ft_printf("Now doing line %d number %d, %d!\n", y, x, terminator);
 	new_node = malloc(sizeof(t_hm_node));
 	split_str = ft_split(str, ',');
 	if (!new_node || !split_str)
 		return (fdf_free_rec((void **)split_str), free(new_node), NULL);
 	new_node->x_coord = x;
 	new_node->y_coord = y;
+	new_node->terminator = terminator;
 	if (!split_str[1])
 	{
 		new_node->z_coord = ft_atoi(split_str[0]);
@@ -54,30 +57,30 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y)
 	@param y_counter	current y coordinate
 	@returns			new dynamically allocated hm_node row based on input
 */
-t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter)
+t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter, \
+										int terminator)
 {
 	int				node_line_len;
 	int				x_counter;
 	t_hm_node		**node_line;
 
+	ft_printf("\nNow doing line %d (%d)!\n", y_counter, terminator);
 	node_line_len = 0;
 	while (strings[node_line_len] && \
 			strings[node_line_len][0] != '\0' && \
 			strings[node_line_len][0] != '\n')
 		node_line_len ++;
 	x_counter = 0;
-	node_line = malloc((sizeof(t_hm_node *) * node_line_len) + 1);
-	if (!node_line)
-		return (NULL);
-	node_line[node_line_len] = NULL;
-	while (x_counter < node_line_len)
+	node_line = malloc((sizeof(t_hm_node *) * (node_line_len + 1)));
+	while (x_counter < node_line_len && terminator != 1)
 	{
 		node_line[x_counter] = \
-			fdf_create_hm_node(strings[x_counter], x_counter, y_counter);
+			fdf_create_hm_node(strings[x_counter], x_counter, y_counter, 0);
 		if (node_line[x_counter] == NULL)
 			return (fdf_free_rec((void **)node_line), NULL);
 		x_counter++;
 	}
+	node_line[x_counter] = fdf_create_hm_node("0", 0, 0, 1);
 	return (node_line);
 }
 
@@ -95,18 +98,19 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 	while (strings[node_col_len])
 		node_col_len++;
 	y_counter = 0;
-	node_twod_arr = malloc((sizeof(t_hm_node **) * node_col_len) + 1);
+	node_twod_arr = malloc((sizeof(t_hm_node **) * (node_col_len + 1)));
 	if (!node_twod_arr)
 		return (NULL);
-	node_twod_arr[node_col_len] = NULL;
 	while (y_counter < node_col_len)
 	{
 		node_twod_arr[y_counter] = \
-			fdf_create_hm_node_line(strings[y_counter], y_counter);
+			fdf_create_hm_node_line(strings[y_counter], y_counter, 0);
 		if (node_twod_arr[y_counter] == NULL)
 			return (fdf_free_rec_rec((void ***)node_twod_arr), NULL);
 		y_counter++;
 	}
+	ft_printf("outta the loop!\n");
+	node_twod_arr[y_counter] = fdf_create_hm_node_line(strings[0], 10, 1);
 	return (node_twod_arr);
 }
 
@@ -124,12 +128,14 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	input_twod_arr = malloc(sizeof(char **) + 1);
 	y_counter = 0;
 	input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
+	ft_printf("%d\n", fd);
 	while (input_twod_arr[y_counter] != NULL)
 	{
 		temp = realloc(input_twod_arr, (sizeof(char **) * (y_counter + 2)));
 		if (temp == NULL)
 			return (fdf_free_rec_rec((void ***)input_twod_arr), NULL);
 		input_twod_arr = temp;
+		ft_printf("Read in: %s %s %s %s %s\n", input_twod_arr[y_counter][0], input_twod_arr[y_counter][1], input_twod_arr[y_counter][2], input_twod_arr[y_counter][3], input_twod_arr[y_counter][4]);
 		y_counter++;
 		input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
 	}
