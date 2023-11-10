@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 06:28:47 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 08:38:33 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:40:54 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static t_pixel	*convert_hm_node_to_pixel(t_hm_node *node)
 {
 	t_pixel		*pixel;
 
-	ft_printf("     Nodet. (%d|%d), %d\n", node->x_coord, node->y_coord, node->terminator);
 	pixel = malloc(sizeof(t_pixel));
 	if (pixel)
 	{
@@ -37,18 +36,13 @@ static t_pixel	**convert_hm_node_line_to_pixel_line(t_hm_node **nodes)
 	t_pixel		**pixels;
 	int			counter;
 
-	ft_printf("\nStarting conversion of next line.\n");
 	width = 0;
 	while (nodes[width]->terminator != 1)
-	{
-		ft_printf("Incrementing for node (%d|%d). terminator is %d\n", nodes[width]->x_coord, nodes[width]->y_coord, nodes[width]->terminator);
 		width++;
-	}
 	pixels = malloc (sizeof(t_hm_node **) * (width + 1));
 	counter = 0;
 	while (pixels && counter < width + 1)
 	{
-		ft_printf("Next node! counter is %d, width is still %d\n", counter, width);
 		pixels[counter] = convert_hm_node_to_pixel(nodes[counter]);
 		if (pixels[counter] == NULL)
 			return (fdf_free_rec((void **)pixels), NULL);
@@ -57,7 +51,7 @@ static t_pixel	**convert_hm_node_line_to_pixel_line(t_hm_node **nodes)
 	return (pixels);
 }
 
-static t_pixel	***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes)
+t_pixel	***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes)
 {
 	int			height;
 	t_pixel		***pixels;
@@ -77,30 +71,3 @@ static t_pixel	***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes)
 	}
 	return (pixels);
 }
-
-// #include <fcntl.h>
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	t_pixel		***pixels;
-// 	t_hm_node	***nodes;
-// 	int			fd = open("./etc/test_maps/42.fdf", O_RDONLY);
-
-// 	if (fd == -1)
-// 	{
-// 		perror("Error opening file");
-// 		return (1);
-// 	}
-// 	nodes = fdf_get_heightmap(fd);
-// 	ft_printf("Successfully received nodes. Now converting to pixels!\n");
-// 	pixels = convert_hm_node_grid_to_pixel_grid(nodes);
-// 	for (int y = 0; pixels[y][0]->terminator != 1; y++)
-// 	{
-// 		for (int x = 0; pixels[y][x]->terminator != 1; x++)
-// 		{
-// 			ft_printf("woo! (%d|%d) - (%d, %d, %d, %d)\n", pixels[y][x]->x_coord, pixels[y][x]->y_coord, get_col_rgba(pixels[y][x]->color, 'r'), get_col_rgba(pixels[y][x]->color, 'g'), get_col_rgba(pixels[y][x]->color, 'b'), get_col_rgba(pixels[y][x]->color, 'a'));
-// 		}
-// 		ft_printf("\n");
-// 	}
-// }

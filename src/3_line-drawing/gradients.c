@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 08:51:23 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 07:36:40 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:32:32 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static double	get_gradient_step(int l, int c1, int c2, char col)
 	@returns		Dynamically allocated array of length l containing a
 					color feed between including the colors c1 and c2
 */
-int	*get_gradient(int l, int c1, int c2)
+int	*get_grad(int l, int c1, int c2)
 {
 	int		i;
 	int		*colors;
