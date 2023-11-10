@@ -23,12 +23,16 @@ fclean: clean
 re: fclean all
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
-comp:
+fcomp:
 	@make fclean
 	@make libmlx
 	@make all
 	@make clean
 	./fdf
 	@cd src && norminette && cd ..
+comp:
+	@make all
+	@make clean
+	@clear
 
 .PHONY: all clean fclean re comp libmlx

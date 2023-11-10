@@ -6,22 +6,23 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 08:28:14 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:41:22 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "src/0_imports/get_next_line/get_next_line.h"
-# include "src/0_imports/ft_printf/ft_printf.h"
-# include "src/0_imports/libft/libft.h"
+# include "src/imports/get_next_line/get_next_line.h"
+# include "src/imports/ft_printf/ft_printf.h"
+# include "src/imports/libft/libft.h"
 
 # include "lib/MLX42/include/MLX42/MLX42.h"
 
 # define DEFAULT_NODE_COLOR 0xFF00FF
 # define DEFAULT_WIDTH 256
 # define DEFAULT_HEIGHT 256
+# define COORD_SPREAD 10
 # define PROGRAM_NAME "FDF"
 
 typedef struct t_hm_node
@@ -54,13 +55,24 @@ int			fdf_ft_hex_atoi(const char *s);
 
 // Drawing functions
 
-mlx_t		*fdf_init(void);
-int			*get_gradient(int l, int c1, int c2);
-int			draw_line(mlx_image_t *img, t_pixel a, t_pixel b);
+int			*get_grad(int l, int c1, int c2);
+int			draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b);
 
 int			get_rgba(int r, int g, int b, int a);
 int			get_col_rgba(int rgba, char col);
 int			get_col_rgb(int rgb, char col);
 int			hex_to_rgba(int hex, int alpha);
+
+// Conversion functions
+
+t_pixel		***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes);
+
+// Main loop / window management
+
+void		logger(char type, char *message);
+int			get_pixelmap_width(t_pixel	***pixelmap);
+int			get_pixelmap_height(t_pixel	***pixelmap);
+
+mlx_t		*fdf_init(t_pixel	***pixelmap);
 
 #endif

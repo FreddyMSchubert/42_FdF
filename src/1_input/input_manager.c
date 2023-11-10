@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 08:08:48 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:46:25 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,21 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
 	t_hm_node		*new_node;
 	char			**split_str;
 
-	ft_printf("Now doing line %d number %d, %d!\n", y, x, terminator);
 	new_node = malloc(sizeof(t_hm_node));
 	split_str = ft_split(str, ',');
 	if (!new_node || !split_str)
 		return (fdf_free_rec((void **)split_str), free(new_node), NULL);
-	new_node->x_coord = x;
-	new_node->y_coord = y;
+	new_node->x_coord = x * COORD_SPREAD;
+	new_node->y_coord = y * COORD_SPREAD;
 	new_node->terminator = terminator;
 	if (!split_str[1])
 	{
-		new_node->z_coord = ft_atoi(split_str[0]);
+		new_node->z_coord = ft_atoi(split_str[0]) * COORD_SPREAD;
 		new_node->color_hex = DEFAULT_NODE_COLOR;
 	}
 	else
 	{
-		new_node->z_coord = ft_atoi(split_str[0]);
+		new_node->z_coord = ft_atoi(split_str[0]) * COORD_SPREAD;
 		new_node->color_hex = fdf_ft_hex_atoi(split_str[1]);
 	}
 	fdf_free_rec((void **)split_str);
@@ -64,7 +63,6 @@ t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter, \
 	int				x_counter;
 	t_hm_node		**node_line;
 
-	ft_printf("\nNow doing line %d (%d)!\n", y_counter, terminator);
 	node_line_len = 0;
 	while (strings[node_line_len] && \
 			strings[node_line_len][0] != '\0' && \
@@ -109,7 +107,6 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 			return (fdf_free_rec_rec((void ***)node_twod_arr), NULL);
 		y_counter++;
 	}
-	ft_printf("outta the loop!\n");
 	node_twod_arr[y_counter] = fdf_create_hm_node_line(strings[0], 10, 1);
 	return (node_twod_arr);
 }
@@ -128,21 +125,19 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	input_twod_arr = malloc(sizeof(char **) + 1);
 	y_counter = 0;
 	input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
-	ft_printf("%d\n", fd);
 	while (input_twod_arr[y_counter] != NULL)
 	{
 		temp = realloc(input_twod_arr, (sizeof(char **) * (y_counter + 2)));
 		if (temp == NULL)
 			return (fdf_free_rec_rec((void ***)input_twod_arr), NULL);
 		input_twod_arr = temp;
-		ft_printf("Read in: %s %s %s %s %s\n", input_twod_arr[y_counter][0], input_twod_arr[y_counter][1], input_twod_arr[y_counter][2], input_twod_arr[y_counter][3], input_twod_arr[y_counter][4]);
 		y_counter++;
 		input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
 	}
 	input_twod_arr[y_counter] = NULL;
 	ft_printf("\033[33mLOGGER\033[0m: Read out data from input file.\n");
 	heightmap = fdf_create_hm_node_twod_arr(input_twod_arr);
-	ft_printf("\033[33mLOGGER\033[0m: Converted data into node format.\n");
+	ft_printf("\033[33mLOGGER\033[0m: Converted input data into node format.\n");
 	fdf_free_rec_rec((void ***)input_twod_arr);
 	return (heightmap);
 }

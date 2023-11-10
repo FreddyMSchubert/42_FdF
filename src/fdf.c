@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 07:38:21 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:07:48 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,35 @@ void	fdf_mlx_error(void)
 	exit(EXIT_FAILURE);
 }
 
-mlx_t	*fdf_init(void)
+void	fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap)
+{
+	int		width;
+	int		height;
+	int		x;
+	int		y;
+
+	t_pixel pix1 = (t_pixel){100, 245, 0xFFFFFF, 0};
+	t_pixel pix2 = (t_pixel){100, 255, 0xFFFFFF, 0};
+	draw_line(img, &pix1, &pix2);
+	width = get_pixelmap_width(pixelmap);
+	height = get_pixelmap_height(pixelmap);
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			if (y - 1 >= 0)
+				draw_line(img, pixelmap[y][x], pixelmap[y - 1][x]);
+			if (x + 1 < width)
+				draw_line(img, pixelmap[y][x], pixelmap[y][x + 1]);
+			x++;
+		}
+		y++;
+	}
+}
+
+mlx_t	*fdf_init(t_pixel	***pixelmap)
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
@@ -30,40 +58,37 @@ mlx_t	*fdf_init(void)
 	mlx = mlx_init(DEFAULT_WIDTH, DEFAULT_HEIGHT, PROGRAM_NAME, true);
 	if (!mlx)
 		fdf_mlx_error();
-	ft_printf("Instantiated new window (%d|%d).\n", mlx->width, mlx->height);
 	img = mlx_new_image(mlx, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		fdf_mlx_error();
-	mlx_put_pixel(img, DEFAULT_WIDTH / 2 - 1, \
-		DEFAULT_HEIGHT / 2 - 1, 0xFF0000FF);
-	draw_line(img, (t_pixel){DEFAULT_WIDTH - 100, DEFAULT_HEIGHT - 1, \
-					get_rgba(255, 0, 0, 255), 0}, \
-					(t_pixel){0, 0, get_rgba(0, 255, 0, 255), 0});
+	logger('l', "Window initialized.\n");
+	fdf_draw_lines(img, pixelmap);
+	logger('s', "Heightmap drawn.\n");
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
-	return (mlx);
 }
 
-// int	main(int argc, char	*argv[])
-// {
-// 	t_hm_node		***heightmap;
-// 	// t_pixel			***pixelmap;
-// 	int				fd;
+int	main(int argc, char	*argv[])
+{
+	t_hm_node		***heightmap;
+	t_pixel			***pixelmap;
+	int				fd;
 
-// 	if (argc == 2)
-// 	{
-// 		fd = open(argv[2], O_RDONLY);
-// 		heightmap = fdf_get_heightmap(fd);
-// 		if (!heightmap)
-// 			return (0);
-// 		// pixelmap = loop_through_all_nodes(heightmap);
-// 		fdf_init();
-// 	}
-// }
-
-/*
-	1. loop through all nodes, convert each 3d node to a 2d pixel, return 2d pixel array
-	2. loop through all pixels, drawing a line between the current pixel and its top neightbour and right neighbour if they exist
-	3. play mario wonder
-*/
+	if (argc == 2)
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			return (logger('e', "Invalid file path.\n"), 0);
+		heightmap = fdf_get_heightmap(fd);
+		if (!heightmap)
+			return (logger('e', "Input reading failed.\n"), 0);
+		pixelmap = convert_hm_node_grid_to_pixel_grid(heightmap);
+		logger('l', "Converted node data into pixel format.\n");
+		fdf_init(pixelmap);
+		logger('l', "Shutting down.\n");
+		return (1);
+	}
+	else
+		logger('e', "Wrong number of arguments inputted.\n");
+}

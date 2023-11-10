@@ -1,5 +1,11 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.8 - 10.11.23
+- Added log function to simplify clear logging of program states. It's colorful, too! + Added basic error statements + removed previous unnecessary print statements
+- Updated bresenhams-algo.c to work with mallocated pixels
+- Multiplied pixel coords by COORD_SPREAD macro to make things more easily visible.
+- added draw_lines function to draw all the lines in the pixelmap.
+
 ### v0.3.7 - 10.11.23
 - Added "terminator" as sentinel value field to t_hm_node and set it in input manager to make looping easy going forward.
 - successful conversion of input text to nodes to pixels. color values get turned into right format and coordinates get turned into correct pixels to create 3d effect. line drawing time!
