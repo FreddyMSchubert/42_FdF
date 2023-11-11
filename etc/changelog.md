@@ -1,6 +1,13 @@
 # Changelog Fdf by @fschuber
 
-### v0.3.10 - 11.11.23
+### current problems
+- exiting the program via esc doesnt work, while the window gets closed the program keeps running.
+- negative values are still dysfunctional
+
+### v0.4.1
+- Added settings struct which gets passed through functions that manipulate the data somehow. This makes it possible to move around the object by e.g. zooming in. Currently implemented is zoom, move, reset, projection switch (which has no effects yet since there is only 1 projection) and a status log.
+
+## v0.4.0 - 11.11.23
 - fixed grid end stupidity, could have used NULL all along instead of using an elaborate sentinel value. much easier! program also runs through for all test cases now. success!
 
 ### v0.3.9 - 10.11.23
