@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 18:07:59 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 07:57:28 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include "lib/MLX42/include/MLX42/MLX42.h"
 
 # define DEFAULT_NODE_COLOR 0xFF00FF
-# define DEFAULT_WIDTH 256
-# define DEFAULT_HEIGHT 256
+# define DEFAULT_WIDTH 5120
+# define DEFAULT_HEIGHT 2880
 # define COORD_SPREAD 10
 # define PROGRAM_NAME "FDF"
 
@@ -31,21 +31,18 @@ typedef struct t_hm_node
 	int		y_coord;
 	int		z_coord;
 	int		color_hex;
-	int		terminator;
 }				t_hm_node;
 typedef struct t_pixel
 {
 	int		x_coord;
 	int		y_coord;
 	int		color;
-	int		terminator;
 }			t_pixel;
 
 // Input functions
 
-t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator);
-t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter, \
-										int terminator);
+t_hm_node	*fdf_create_hm_node(char *str, int x, int y);
+t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter);
 t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings);
 t_hm_node	***fdf_get_heightmap(int fd);
 

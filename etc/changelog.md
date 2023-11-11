@@ -1,5 +1,8 @@
 # Changelog Fdf by @fschuber
 
+### v0.3.10 - 11.11.23
+- fixed grid end stupidity, could have used NULL all along instead of using an elaborate sentinel value. much easier! program also runs through for all test cases now. success!
+
 ### v0.3.9 - 10.11.23
 - Various Norminette Improvements. Now flawless
 - Removed testing code from conversion.c

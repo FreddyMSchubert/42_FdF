@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:38:42 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 18:15:38 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 07:57:49 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-static t_pixel	*create_new_t_pixel(int x, int y, int color, int terminator)
+static t_pixel	*create_new_t_pixel(int x, int y, int color)
 {
 	t_pixel		*new_pixel;
 
@@ -24,7 +24,6 @@ static t_pixel	*create_new_t_pixel(int x, int y, int color, int terminator)
 		new_pixel->x_coord = x;
 		new_pixel->y_coord = y;
 		new_pixel->color = color;
-		new_pixel->terminator = terminator;
 		return (new_pixel);
 	}
 	return (NULL);
@@ -47,7 +46,7 @@ static t_pixel	**draw_line_dom_x(t_pixel *a, t_pixel *b)
 	while (curr_pos.x_coord != b->x_coord)
 	{
 		pixels[i++] = create_new_t_pixel(curr_pos.x_coord, curr_pos.y_coord, \
-										curr_pos.color, curr_pos.terminator);
+										curr_pos.color);
 		curr_pos.x_coord += smaller_than(a->x_coord, b->x_coord);
 		error = error - abs(b->y_coord - a->y_coord);
 		if (error < 0)
@@ -77,7 +76,7 @@ static t_pixel	**draw_line_dom_y(t_pixel *a, t_pixel *b)
 	while (curr_pos.y_coord != b->y_coord)
 	{
 		pixels[i++] = create_new_t_pixel(curr_pos.x_coord, curr_pos.y_coord, \
-										curr_pos.color, curr_pos.terminator);
+										curr_pos.color);
 		curr_pos.y_coord += smaller_than(a->y_coord, b->y_coord);
 		error = error - abs(b->x_coord - a->x_coord);
 		if (error < 0)
@@ -142,10 +141,14 @@ int	draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b)
 	counter = 0;
 	while (counter < len)
 	{
-		mlx_put_pixel(img, pixels[counter]->x_coord, pixels[counter]->y_coord, \
+		if (pixels[counter]->x_coord < DEFAULT_WIDTH && \
+					pixels[counter]->y_coord < DEFAULT_HEIGHT)
+		{
+			mlx_put_pixel(img, pixels[counter]->x_coord, \
+						pixels[counter]->y_coord, \
 						pixels[counter]->color);
+		}
 		counter ++;
 	}
-	printf("\n\n\n");
 	return (1);
 }

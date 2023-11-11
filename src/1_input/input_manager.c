@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 18:14:25 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 08:26:05 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 	@param terminator	serves as sentinel value. should be 0 by default
 	@returns			new dynamically allocated hm_node based on input
 */
-t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
+t_hm_node	*fdf_create_hm_node(char *str, int x, int y)
 {
 	t_hm_node		*new_node;
 	char			**split_str;
@@ -35,7 +35,6 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
 		return (fdf_free_rec((void **)split_str), free(new_node), NULL);
 	new_node->x_coord = x * COORD_SPREAD;
 	new_node->y_coord = y * COORD_SPREAD;
-	new_node->terminator = terminator;
 	if (!split_str[1])
 	{
 		new_node->z_coord = ft_atoi(split_str[0]);
@@ -56,8 +55,7 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y, int terminator)
 	@param y_counter	current y coordinate
 	@returns			new dynamically allocated hm_node row based on input
 */
-t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter, \
-										int terminator)
+t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter)
 {
 	int				node_line_len;
 	int				x_counter;
@@ -69,16 +67,16 @@ t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter, \
 			strings[node_line_len][0] != '\n')
 		node_line_len ++;
 	x_counter = 0;
-	node_line = malloc((sizeof(t_hm_node *) * (node_line_len + 1)));
-	while (x_counter < node_line_len && terminator != 1)
+	node_line = malloc((sizeof(t_hm_node *) * node_line_len) + 1);
+	while (x_counter < node_line_len)
 	{
 		node_line[x_counter] = \
-			fdf_create_hm_node(strings[x_counter], x_counter, y_counter, 0);
+			fdf_create_hm_node(strings[x_counter], x_counter, y_counter);
 		if (node_line[x_counter] == NULL)
 			return (fdf_free_rec((void **)node_line), NULL);
 		x_counter++;
 	}
-	node_line[x_counter] = fdf_create_hm_node("0", 0, 0, 1);
+	node_line[x_counter] = NULL;
 	return (node_line);
 }
 
@@ -96,18 +94,18 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 	while (strings[node_col_len])
 		node_col_len++;
 	y_counter = 0;
-	node_twod_arr = malloc((sizeof(t_hm_node **) * (node_col_len + 1)));
+	node_twod_arr = malloc((sizeof(t_hm_node **) * node_col_len) + 1);
 	if (!node_twod_arr)
 		return (NULL);
 	while (y_counter < node_col_len)
 	{
 		node_twod_arr[y_counter] = \
-			fdf_create_hm_node_line(strings[y_counter], y_counter, 0);
+			fdf_create_hm_node_line(strings[y_counter], y_counter);
 		if (node_twod_arr[y_counter] == NULL)
 			return (fdf_free_rec_rec((void ***)node_twod_arr), NULL);
 		y_counter++;
 	}
-	node_twod_arr[y_counter] = fdf_create_hm_node_line(strings[0], 10, 1);
+	node_twod_arr[y_counter] = NULL;
 	return (node_twod_arr);
 }
 
@@ -122,6 +120,8 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	char		***temp;
 	int			y_counter;
 
+	if (fd == -1)
+		return (logger('e', "Invalid file path.\n"), NULL);
 	input_twod_arr = malloc(sizeof(char **) + 1);
 	y_counter = 0;
 	input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
@@ -135,9 +135,9 @@ t_hm_node	***fdf_get_heightmap(int fd)
 		input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
 	}
 	input_twod_arr[y_counter] = NULL;
-	ft_printf("\033[33mLOGGER\033[0m: Read out data from input file.\n");
+	logger('l', "Read out data from input file.\n");
 	heightmap = fdf_create_hm_node_twod_arr(input_twod_arr);
-	ft_printf("\033[33mLOGGER\033[0m: Converted input into node format.\n");
+	logger('l', "Converted input into node format.\n");
 	fdf_free_rec_rec((void ***)input_twod_arr);
 	return (heightmap);
 }
