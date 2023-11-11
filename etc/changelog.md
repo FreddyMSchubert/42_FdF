@@ -4,6 +4,10 @@
 - exiting the program via esc doesnt work, while the window gets closed the program keeps running.
 - negative values are still dysfunctional
 
+## dodo
+- ensure functionality for all test cases
+- make the degrees wrap around after 360 in input function
+
 ### v0.4.1
 - Added settings struct which gets passed through functions that manipulate the data somehow. This makes it possible to move around the object by e.g. zooming in. Currently implemented is zoom, move, reset, projection switch (which has no effects yet since there is only 1 projection) and a status log.
 

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 11:36:10 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:56:49 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 	settings = malloc(sizeof(t_view_settings));
 	settings->projection = 'i';
 	settings->zoom = 10;
-	settings->x_offset = DEFAULT_WIDTH / 4;
-	settings->y_offset = DEFAULT_HEIGHT / 4;
+	settings->x_offset = 0;
+	settings->y_offset = 0;
 	settings->yaw = 0;
 	settings->pitch = 0;
 	settings->roll = 0;

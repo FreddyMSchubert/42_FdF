@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 11:00:51 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:51:44 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	kenter(t_view_settings *settings)
 
 	defaults = initialize_settings(settings->mlx, settings->img, \
 									settings->heightmap);
-	logger('k', "Enter\n");
 	settings->projection = defaults->projection;
 	settings->zoom = defaults->zoom;
 	settings->x_offset = defaults->x_offset;
@@ -34,7 +33,6 @@ void	kenter(t_view_settings *settings)
 // @brief		displays debug log
 void	k0(t_view_settings *settings)
 {
-	logger('k', "0\n");
 	ft_printf("\n   DEBUG LOG!\n");
 	ft_printf("     width:       %d\n", settings->mlx->width);
 	ft_printf("     height:      %d\n", settings->mlx->height);
@@ -51,7 +49,6 @@ void	k0(t_view_settings *settings)
 // @brief		switches projection
 void	kdot(t_view_settings *settings)
 {
-	logger('k', ".\n");
 	if (settings->projection == 'i')
 		settings->projection = 'p';
 	else
@@ -66,7 +63,6 @@ void	kdot(t_view_settings *settings)
 // @brief		resets settings
 void	kclear(t_view_settings *settings)
 {
-	logger('k', "Clear\n");
 	mlx_terminate(settings->mlx);
 	logger('l', "Shutting down program...");
 }

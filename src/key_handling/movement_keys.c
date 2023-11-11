@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 11:02:54 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 11:45:04 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:48:40 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // @brief		zooms in
 void	kplus(t_view_settings *settings)
 {
-	logger('k', "+\n");
 	settings->zoom += settings->zoom / 5;
 	refresh_screen(settings);
 	logger('l', "Zoomed in.\n");
@@ -24,7 +23,6 @@ void	kplus(t_view_settings *settings)
 // @brief		zooms out
 void	kminus(t_view_settings *settings)
 {
-	logger('k', "-\n");
 	settings->zoom -= settings->zoom / 5;
 	if (settings->zoom <= 0)
 		settings->zoom = 1;
@@ -36,8 +34,7 @@ void	arrowkeys(mlx_key_data_t keydata, t_view_settings *settings)
 {
 	int	step;
 
-	step = 100;
-	logger('k', "Arrow Key\n");
+	step = 1;
 	if (keydata.key == 265)
 		settings->y_offset -= step;
 	if (keydata.key == 262)

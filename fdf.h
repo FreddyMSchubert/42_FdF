@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 11:33:58 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:55:21 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int				hex_to_rgba(int hex, int alpha);
 
 t_pixel			***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes, \
 					t_view_settings *settings);
+t_hm_node		*rotate_node(t_hm_node	*node, t_view_settings	*settings);
 
 // Main loop / window management
 
@@ -90,8 +91,7 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 void			refresh_screen(t_view_settings *settings);
 
 mlx_t			*fdf_init(t_hm_node	***heightmap);
-void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap, \
-								t_view_settings *settings);
+void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
 
 // Key Input
 
@@ -105,5 +105,7 @@ void			kclear(t_view_settings *settings);
 void			kplus(t_view_settings *settings);
 void			kminus(t_view_settings *settings);
 void			arrowkeys(mlx_key_data_t keydata, t_view_settings *settings);
+void			change_rotation(mlx_key_data_t keydata, \
+								t_view_settings *settings);
 
 #endif
