@@ -1,8 +1,13 @@
 # Changelog Fdf by @fschuber
 
-### current problems
-- exiting the program via esc doesnt work, while the window gets closed the program keeps running.
-- negative values are still dysfunctional
+## dodo
+- ensure functionality for all test cases. pylone still does not work because its not rectangular.
+- add second projection
+- exiting the program via esc doesnt work (segfault), while the window gets closed the program keeps running.
+
+### v0.5.0 
+- added key inputs to quick, reset, switch projection, see status log, rotate the object using pitch yaw roll, zoom in and out move it around, scale up or down the height, and added a rotate mode that rotates the object on one or more axes.
+- Various improvements
 
 ### v0.4.1
 - Added settings struct which gets passed through functions that manipulate the data somehow. This makes it possible to move around the object by e.g. zooming in. Currently implemented is zoom, move, reset, projection switch (which has no effects yet since there is only 1 projection) and a status log.
