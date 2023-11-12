@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 07:59:20 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 08:41:59 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:01:14 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ void	scroll_handler(double xdelta, double ydelta, void *param)
 {
 	t_view_settings		*settings;
 
+	(void)xdelta;
 	settings = (t_view_settings *)param;
-	logger('m', "Scrolled by ");
-	ft_printf("(%d|%d).\n", (int)xdelta, (int)ydelta);
 	if (settings->keys->p == 1)
 		pitch(settings, ydelta);
 	else if (settings->keys->y == 1)

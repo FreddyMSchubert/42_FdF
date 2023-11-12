@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 10:35:48 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:14:40 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	reset_settings(t_view_settings *settings)
 	settings->rotate_mode_pitch = defaults->rotate_mode_pitch;
 	settings->rotate_mode_roll = defaults->rotate_mode_roll;
 	settings->rotate_mode_yaw = defaults->rotate_mode_yaw;
-	logger('i', "Default settings restored.\n");
+	logger('l', "Default settings restored.\n");
 }
 
 // @brief		displays debug log
@@ -52,17 +52,16 @@ void	status_log(t_view_settings *settings)
 	ft_printf("     rotate mode roll:  %d\n", settings->rotate_mode_roll);
 	ft_printf("     rotate mode pitch: %d\n", settings->rotate_mode_yaw);
 	ft_printf("     shift key:         %d\n", settings->keys->shift);
-	ft_printf("     roll key:          %d\n\n", settings->keys->r);
 }
 
-// @brief		switches projection
+// @brief		toggles projection
 void	switch_projection(t_view_settings *settings)
 {
 	if (settings->projection == 'i')
 		settings->projection = 'c';
 	else
 		settings->projection = 'i';
-	logger('i', "Projection is now ");
+	logger('l', "Changed projection to ");
 	if (settings->projection == 'i')
 		ft_printf("isometric.\n");
 	else

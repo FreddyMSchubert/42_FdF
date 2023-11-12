@@ -6,13 +6,11 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 16:49:43 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 08:23:38 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:14:25 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fdf.h"
-
-#define ROTATION_STEP 1
 
 // @brief		changes pitch
 void	pitch(t_view_settings *settings, double amount)
@@ -20,7 +18,7 @@ void	pitch(t_view_settings *settings, double amount)
 	settings->pitch += amount;
 	settings->pitch %= 360;
 	refresh_screen(settings);
-	logger('i', "Changed pitch");
+	logger('l', "Changed pitch");
 	ft_printf(" to %d°.\n", settings->pitch);
 }
 
@@ -30,7 +28,7 @@ void	yaw(t_view_settings *settings, double amount)
 	settings->yaw += amount;
 	settings->yaw %= 360;
 	refresh_screen(settings);
-	logger('i', "Changed yaw");
+	logger('l', "Changed yaw");
 	ft_printf(" to %d°.\n", settings->yaw);
 }
 
@@ -40,6 +38,6 @@ void	roll(t_view_settings *settings, double amount)
 	settings->roll += amount;
 	settings->roll %= 360;
 	refresh_screen(settings);
-	logger('i', "Changed roll");
+	logger('l', "Changed roll");
 	ft_printf(" to %d°.\n", settings->roll);
 }

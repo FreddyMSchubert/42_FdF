@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:32:19 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 07:22:40 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:50:52 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	refresh_screen(t_view_settings *settings)
 		x = 0;
 		while (x < settings->mlx->width)
 		{
-			mlx_put_pixel(settings->img, x, y, 0x00000000);
+			mlx_put_pixel(settings->img, x, y, 0x000000FF);
 			x++;
 		}
 		y++;

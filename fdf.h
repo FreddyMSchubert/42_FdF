@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 10:37:29 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 20:33:53 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ typedef struct s_pixel
 	int		color;
 }			t_pixel;
 
+typedef struct s_matrix3x3
+{
+	double		m[3][3];
+}				t_matrix3x3;
+
 typedef struct s_keys_held
 {
 	int				p;
@@ -51,6 +56,8 @@ typedef struct s_keys_held
 	int				mouse;
 	int				mouse_x;
 	int				mouse_y;
+	int				mouse_rotation_x;
+	int				mouse_rotation_y;
 }				t_keys_held;
 typedef struct s_view_settings
 {
@@ -100,6 +107,10 @@ t_pixel			***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes, \
 					t_view_settings *settings);
 void			rotate_node(int *x, int *y, int *z, \
 					t_view_settings	*settings);
+t_matrix3x3		multiply_two_matrices(t_matrix3x3 matrix1, t_matrix3x3 matrix2);
+void			apply_rotation_matrix(int *x, int *y, int *z, \
+										t_matrix3x3 matrix);
+t_matrix3x3		get_rotation_matrix(double angle, char axis);
 
 // Main loop / window management
 
@@ -119,7 +130,8 @@ void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
 
 void			key_handler(mlx_key_data_t keydata, void *settings);
 void			scroll_handler(double xdelta, double ydelta, void *param);
-void			mouse_handler(t_view_settings *settings);
+void			mouse_handler(t_view_settings *settings, \
+								int is_first_frame_of_click);
 
 void			reset_settings(t_view_settings *settings);
 void			status_log(t_view_settings *settings);

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 09:02:37 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 10:36:52 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:55:59 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	handle_multiple_held_keys(t_view_settings *settings)
 // @brief	hook callback function
 void	key_handler(mlx_key_data_t keydata, void *param)
 {
-	ft_printf("Key pressed: %d\n", keydata.key);
 	if (keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == 259)

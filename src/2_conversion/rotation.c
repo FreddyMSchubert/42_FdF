@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:38 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 07:04:50 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 20:20:18 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,33 @@
 // 	-> https://blogs.sas.com/content/iml/2016/11/07/rotations-3d-data.html
 // */
 
-static double	(*rotate_plane(double angle, int i, int j))[3]
+static t_matrix3x3	rotate_plane(double angle, int i, int j)
 {
-	double		(*matrix)[3];
+	t_matrix3x3	matrix;
 	int			k;
 	int			l;
 	double		angle_in_radians;
 
 	angle_in_radians = angle * (M_PI / 180.0);
-	matrix = malloc(3 * sizeof(*matrix));
-	if (!matrix)
-		return (NULL);
 	k = -1;
 	while (++k < 3)
 	{
 		l = -1;
 		while (++l < 3)
 		{
-			matrix[k][l] = 0;
+			matrix.m[k][l] = 0;
 			if (k == l)
-				matrix[k][l] = 1;
+				matrix.m[k][l] = 1;
 		}
 	}
-	matrix[i][i] = cos(angle_in_radians);
-	matrix[i][j] = -sin(angle_in_radians);
-	matrix[j][i] = sin(angle_in_radians);
-	matrix[j][j] = cos(angle_in_radians);
+	matrix.m[i][i] = cos(angle_in_radians);
+	matrix.m[i][j] = -sin(angle_in_radians);
+	matrix.m[j][i] = sin(angle_in_radians);
+	matrix.m[j][j] = cos(angle_in_radians);
 	return (matrix);
 }
 
-static double	(*get_rotation_matrix(double angle, char axis))[3]
+t_matrix3x3	get_rotation_matrix(double angle, char axis)
 {
 	if (axis == 'X')
 		return (rotate_plane(angle, 1, 2));
@@ -65,36 +62,36 @@ static double	(*get_rotation_matrix(double angle, char axis))[3]
 		return (rotate_plane(angle, 0, 2));
 	if (axis == 'Z')
 		return (rotate_plane(angle, 0, 1));
-	return (NULL);
+	logger('e', "Invalid axis inputted to get rotation matrix.\n");
+	return (rotate_plane(angle, 0, 1));
 }
 
-static void	apply_rotation_matrix(int *x, int *y, int *z, \
-											double (*matrix)[3])
+void	apply_rotation_matrix(int *x, int *y, int *z, t_matrix3x3 matrix)
 {
 	double		a;
 	double		b;
 	double		c;
 
-	a = matrix[0][0] * *x \
-		+ matrix[0][1] * *y \
-		+ matrix[0][2] * *z;
-	b = matrix[1][0] * *x \
-		+ matrix[1][1] * *y \
-		+ matrix[1][2] * *z;
-	c = matrix[2][0] * *x \
-		+ matrix[2][1] * *y \
-		+ matrix[2][2] * *z;
+	a = matrix.m[0][0] * *x \
+		+ matrix.m[0][1] * *y \
+		+ matrix.m[0][2] * *z;
+	b = matrix.m[1][0] * *x \
+		+ matrix.m[1][1] * *y \
+		+ matrix.m[1][2] * *z;
+	c = matrix.m[2][0] * *x \
+		+ matrix.m[2][1] * *y \
+		+ matrix.m[2][2] * *z;
 	*x = (int)a;
 	*y = (int)b;
 	*z = (int)c;
 }
 
-void	multiply_two_matrices(double (*result)[3], double (*matrix1)[3], \
-								double (*matrix2)[3])
+t_matrix3x3	multiply_two_matrices(t_matrix3x3 matrix1, t_matrix3x3 matrix2)
 {
-	int		i;
-	int		j;
-	int		k;
+	t_matrix3x3	result;
+	int			i;
+	int			j;
+	int			k;
 
 	i = 0;
 	while (i < 3)
@@ -102,38 +99,34 @@ void	multiply_two_matrices(double (*result)[3], double (*matrix1)[3], \
 		j = 0;
 		while (j < 3)
 		{
-			result[i][j] = 0;
+			result.m[i][j] = 0;
 			k = 0;
 			while (k < 3)
 			{
-				result[i][j] += matrix1[i][k] * matrix2[k][j];
+				result.m[i][j] += matrix1.m[i][k] * matrix2.m[k][j];
 				k++;
 			}
 			j++;
 		}
 		i++;
 	}
+	return (result);
 }
 
 void	rotate_node(int *x, int *y, int *z, t_view_settings	*settings)
 {
-	double	(*x_matrix)[3];
-	double	(*y_matrix)[3];
-	double	(*z_matrix)[3];
-	double	(*comb_matrix)[3];
-	double	(*temp_matrix)[3];
+	t_matrix3x3		comb_matrix;
+	t_matrix3x3		temp_matrix;
+	t_matrix3x3		relative_to_world_matrix;
 
-	x_matrix = get_rotation_matrix(settings->pitch, 'X');
-	y_matrix = get_rotation_matrix(settings->roll, 'Y');
-	z_matrix = get_rotation_matrix(settings->yaw, 'Z');
-	comb_matrix = malloc(3 * sizeof(*comb_matrix));
-	temp_matrix = malloc(3 * sizeof(*temp_matrix));
-	multiply_two_matrices(temp_matrix, x_matrix, y_matrix);
-	multiply_two_matrices(comb_matrix, temp_matrix, z_matrix);
+	temp_matrix = multiply_two_matrices(\
+				get_rotation_matrix(settings->pitch, 'X'), \
+				get_rotation_matrix(settings->pitch, 'Y'));
+	comb_matrix = multiply_two_matrices(temp_matrix, \
+				get_rotation_matrix(settings->yaw, 'Z'));
 	apply_rotation_matrix(x, y, z, comb_matrix);
-	free(comb_matrix);
-	free(temp_matrix);
-	free(x_matrix);
-	free(y_matrix);
-	free(z_matrix);
+	relative_to_world_matrix = multiply_two_matrices(\
+			get_rotation_matrix(settings->keys->mouse_rotation_x, 'Y'), \
+			get_rotation_matrix(settings->keys->mouse_rotation_y, 'X'));
+	apply_rotation_matrix(x, y, z, relative_to_world_matrix);
 }

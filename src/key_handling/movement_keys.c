@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 11:02:54 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 08:42:49 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:12:16 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 // @brief		zooms
 void	zoom(t_view_settings *settings, double amount)
 {
+	int			prevzoom;
+
+	prevzoom = settings->zoom;
 	settings->zoom += amount / 3;
 	if (settings->zoom <= 0)
 		settings->zoom = 1;
 	refresh_screen(settings);
-	logger('i', "Zoomed. ");
-	ft_printf("Zoom is now %d.\n", settings->zoom);
+	if (settings->zoom != prevzoom)
+	{
+		logger('l', "Zoomed. ");
+		ft_printf("Zoom is now %d, was %d\n", settings->zoom, prevzoom);
+	}
 }
 
 // @brief		changes x offset
@@ -32,8 +38,8 @@ void	edit_x_offset(t_view_settings *settings, double amount)
 	if (settings->x_offset > settings->mlx->width)
 		settings->x_offset = settings->mlx->width - 1;
 	refresh_screen(settings);
-	logger('i', "Changed x offset, ");
-	ft_printf("it's now %d.\n", settings->x_offset);
+	logger('l', "Changed x offset ");
+	ft_printf("to %d.\n", settings->x_offset);
 }
 
 // @brief		changes y offset
@@ -45,15 +51,25 @@ void	edit_y_offset(t_view_settings *settings, double amount)
 	if (settings->y_offset > settings->mlx->height)
 		settings->y_offset = settings->mlx->height - 1;
 	refresh_screen(settings);
-	logger('i', "Changed y offset, ");
-	ft_printf("it's now %d.\n", settings->y_offset);
+	logger('l', "Changed y offset ");
+	ft_printf("to %d.\n", settings->y_offset);
 }
 
 // @brief		changes depth
 void	edit_depth(t_view_settings *settings, double amount)
 {
-	settings->depth_mod += amount / 10;
+	int			increment;
+
+	increment = amount / 10;
+	if (increment == 0 && amount != 0)
+	{
+		if (amount < 0)
+			increment = -1;
+		if (amount > 0)
+			increment = 1;
+	}
+	settings->depth_mod += increment;
 	refresh_screen(settings);
-	logger('i', "Changed depth, ");
-	ft_printf("it's now %d.\n", settings->depth_mod);
+	logger('l', "Changed terrain depth ");
+	ft_printf("to %d.\n", settings->depth_mod);
 }

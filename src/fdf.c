@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 10:48:49 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 20:28:40 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,15 @@ void	generic_hook(void *param)
 		settings->rotate_mode_yaw == 1)
 		refresh_screen(settings);
 	if (mlx_is_mouse_down(settings->mlx, MLX_MOUSE_BUTTON_LEFT))
-		mouse_handler(settings);
+	{
+		if (settings->keys->mouse == 0)
+			mouse_handler(settings, 1);
+		else
+			mouse_handler(settings, 0);
+		logger('l', "Mouse held down!\n");
+	}
+	else
+		settings->keys->mouse = 0;
 }
 
 void	closing_hook(void *param)
