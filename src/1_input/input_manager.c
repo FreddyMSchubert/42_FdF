@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 11:19:32 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 06:22:47 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y)
 	split_str = ft_split(str, ',');
 	if (!new_node || !split_str)
 		return (fdf_free_rec((void **)split_str), free(new_node), NULL);
-	new_node->x_coord = x;
-	new_node->y_coord = y;
+	new_node->x_coord = x * 5;
+	new_node->y_coord = y * 5;
 	if (!split_str[1])
 	{
 		new_node->z_coord = ft_atoi(split_str[0]);

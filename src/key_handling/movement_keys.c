@@ -6,51 +6,54 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 11:02:54 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 17:48:40 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 08:42:49 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fdf.h"
 
-// @brief		zooms in
-void	kplus(t_view_settings *settings)
+// @brief		zooms
+void	zoom(t_view_settings *settings, double amount)
 {
-	settings->zoom += settings->zoom / 5;
-	refresh_screen(settings);
-	logger('l', "Zoomed in.\n");
-}
-
-// @brief		zooms out
-void	kminus(t_view_settings *settings)
-{
-	settings->zoom -= settings->zoom / 5;
+	settings->zoom += amount / 3;
 	if (settings->zoom <= 0)
 		settings->zoom = 1;
 	refresh_screen(settings);
-	logger('l', "Zoomed out.\n");
+	logger('i', "Zoomed. ");
+	ft_printf("Zoom is now %d.\n", settings->zoom);
 }
 
-void	arrowkeys(mlx_key_data_t keydata, t_view_settings *settings)
+// @brief		changes x offset
+void	edit_x_offset(t_view_settings *settings, double amount)
 {
-	int	step;
-
-	step = 1;
-	if (keydata.key == 265)
-		settings->y_offset -= step;
-	if (keydata.key == 262)
-		settings->x_offset += step;
-	if (keydata.key == 264)
-		settings->y_offset += step;
-	if (keydata.key == 263)
-		settings->x_offset -= step;
+	settings->x_offset += amount;
 	if (settings->x_offset < 0)
 		settings->x_offset = 0;
 	if (settings->x_offset > settings->mlx->width)
 		settings->x_offset = settings->mlx->width - 1;
+	refresh_screen(settings);
+	logger('i', "Changed x offset, ");
+	ft_printf("it's now %d.\n", settings->x_offset);
+}
+
+// @brief		changes y offset
+void	edit_y_offset(t_view_settings *settings, double amount)
+{
+	settings->y_offset += amount;
 	if (settings->y_offset < 0)
 		settings->y_offset = 0;
 	if (settings->y_offset > settings->mlx->height)
 		settings->y_offset = settings->mlx->height - 1;
 	refresh_screen(settings);
-	logger('l', "Moved position.\n");
+	logger('i', "Changed y offset, ");
+	ft_printf("it's now %d.\n", settings->y_offset);
+}
+
+// @brief		changes depth
+void	edit_depth(t_view_settings *settings, double amount)
+{
+	settings->depth_mod += amount / 10;
+	refresh_screen(settings);
+	logger('i', "Changed depth, ");
+	ft_printf("it's now %d.\n", settings->depth_mod);
 }

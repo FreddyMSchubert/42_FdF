@@ -1,26 +1,33 @@
-BASIC
+NORMAL KEYS
 
-✅ kenter  -> reset settings (also enter)
-✅ k0      -> status log (also l)
-kclear  -> close window (also esc)
-✅ k.      -> switch projection (also .)
+✅ 259 delete    -> reset settings
+✅ 83  s         -> status log
+   256 esc       -> close window
+✅ 341 i         -> switch projection
 
-ROTATION
+SCROLL KEYS
 
-k1, k2  -> pitch
-k3      -> reset pitch
-k4, k5  -> yaw
-k6      -> reset yaw
-k7, k8  -> roll
-k9      -> reset roll
+✅ 80 p       -> pitch
+✅ 89 y       -> yaw
+✅ 82 r       -> roll
 
-MOVEMENT
+✅ scroll without key  -> zoom in / out
 
-✅ k+, k-  -> zoom in / out
 ✅ arrows  -> edit offset
+	- up 265
+	- ri 262
+	- do 264
+	- le 263
+
+72 h -> zoom x height
+
+
+
+
 
 ROTATE MODE
 
-k*      -> yaw rotate mode toggle
-k/      -> pitch rotate mode toggle
-k=      -> roll rotate mode toggle
+340
+shift y      -> yaw rotate mode toggle
+shift p      -> pitch rotate mode toggle
+shift r      -> roll rotate mode toggle

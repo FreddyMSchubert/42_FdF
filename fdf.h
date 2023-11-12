@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 17:55:21 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 09:15:24 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 
 typedef struct s_hm_node
 {
-	int		x_coord;
-	int		y_coord;
-	int		z_coord;
+	double	x_coord;
+	double	y_coord;
+	double	z_coord;
 	int		color_hex;
 }				t_hm_node;
 typedef struct s_pixel
@@ -39,6 +39,16 @@ typedef struct s_pixel
 	int		color;
 }			t_pixel;
 
+typedef struct s_keys_held
+{
+	int				p;
+	int				y;
+	int				r;
+	int				h;
+	int				vert;
+	int				hori;
+	int				shift;
+}				t_keys_held;
 typedef struct s_view_settings
 {
 	char			projection;
@@ -48,7 +58,12 @@ typedef struct s_view_settings
 	int				yaw;
 	int				pitch;
 	int				roll;
-	int				rotate_mode;
+	int				depth_mod;
+	int				frame;
+	int				rotate_mode_pitch;
+	int				rotate_mode_roll;
+	int				rotate_mode_yaw;
+	t_keys_held		*keys;
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_hm_node		***heightmap;
@@ -80,32 +95,38 @@ int				hex_to_rgba(int hex, int alpha);
 
 t_pixel			***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes, \
 					t_view_settings *settings);
-t_hm_node		*rotate_node(t_hm_node	*node, t_view_settings	*settings);
+void			rotate_node(int *x, int *y, int *z, \
+					t_view_settings	*settings);
 
 // Main loop / window management
 
 void			logger(char type, char *message);
 void			fdf_mlx_error(void);
 t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
-									t_hm_node	***heightmap);
+									t_hm_node	***heightmap, \
+									t_keys_held	*keys);
+t_keys_held		*initialize_keys(void);
 void			refresh_screen(t_view_settings *settings);
 
 mlx_t			*fdf_init(t_hm_node	***heightmap);
 void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
 
-// Key Input
+// Key + Scroll Input
 
 void			key_handler(mlx_key_data_t keydata, void *settings);
+void			scroll_handler(double xdelta, double ydelta, void *param);
 
-void			kenter(t_view_settings *settings);
-void			k0(t_view_settings *settings);
-void			kdot(t_view_settings *settings);
-void			kclear(t_view_settings *settings);
+void			reset_settings(t_view_settings *settings);
+void			status_log(t_view_settings *settings);
+void			switch_projection(t_view_settings *settings);
+void			quit_program(t_view_settings *settings);
 
-void			kplus(t_view_settings *settings);
-void			kminus(t_view_settings *settings);
-void			arrowkeys(mlx_key_data_t keydata, t_view_settings *settings);
-void			change_rotation(mlx_key_data_t keydata, \
-								t_view_settings *settings);
+void			edit_x_offset(t_view_settings *settings, double amount);
+void			edit_y_offset(t_view_settings *settings, double amount);
+void			pitch(t_view_settings *settings, double amount);
+void			yaw(t_view_settings *settings, double amount);
+void			roll(t_view_settings *settings, double amount);
+void			zoom(t_view_settings *settings, double amount);
+void			edit_depth(t_view_settings *settings, double amount);
 
 #endif

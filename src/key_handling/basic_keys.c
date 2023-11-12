@@ -6,19 +6,19 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 16:51:44 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 09:32:37 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../fdf.h"
 
 // @brief		resets settings
-void	kenter(t_view_settings *settings)
+void	reset_settings(t_view_settings *settings)
 {
 	t_view_settings		*defaults;
 
 	defaults = initialize_settings(settings->mlx, settings->img, \
-									settings->heightmap);
+									settings->heightmap, settings->keys);
 	settings->projection = defaults->projection;
 	settings->zoom = defaults->zoom;
 	settings->x_offset = defaults->x_offset;
@@ -26,34 +26,43 @@ void	kenter(t_view_settings *settings)
 	settings->yaw = defaults->yaw;
 	settings->pitch = defaults->pitch;
 	settings->roll = defaults->roll;
-	settings->rotate_mode = defaults->rotate_mode;
-	logger('l', "Default settings restored.\n");
+	settings->depth_mod = defaults->depth_mod;
+	settings->rotate_mode_pitch = defaults->rotate_mode_pitch;
+	settings->rotate_mode_roll = defaults->rotate_mode_roll;
+	settings->rotate_mode_yaw = defaults->rotate_mode_yaw;
+	logger('i', "Default settings restored.\n");
 }
 
 // @brief		displays debug log
-void	k0(t_view_settings *settings)
+void	status_log(t_view_settings *settings)
 {
 	ft_printf("\n   DEBUG LOG!\n");
-	ft_printf("     width:       %d\n", settings->mlx->width);
-	ft_printf("     height:      %d\n", settings->mlx->height);
-	ft_printf("     projection:  %c\n", settings->projection);
-	ft_printf("     zoom:        %d\n", settings->zoom);
-	ft_printf("     x offset:    %d\n", settings->x_offset);
-	ft_printf("     y offset:    %d\n", settings->y_offset);
-	ft_printf("     yaw:         %d\n", settings->yaw);
-	ft_printf("     pitch:       %d\n", settings->pitch);
-	ft_printf("     roll:        %d\n", settings->roll);
-	ft_printf("     rotate mode: %d\n\n", settings->rotate_mode);
+	ft_printf("     width:             %d\n", settings->mlx->width);
+	ft_printf("     height:            %d\n", settings->mlx->height);
+	ft_printf("     projection:        %c\n", settings->projection);
+	ft_printf("     zoom:              %d\n", settings->zoom);
+	ft_printf("     x offset:          %d\n", settings->x_offset);
+	ft_printf("     y offset:          %d\n", settings->y_offset);
+	ft_printf("     yaw:               %d\n", settings->yaw);
+	ft_printf("     pitch:             %d\n", settings->pitch);
+	ft_printf("     roll:              %d\n", settings->roll);
+	ft_printf("     depth:             %d\n", settings->depth_mod);
+	ft_printf("     frame:             %d\n", settings->frame);
+	ft_printf("     rotate mode yaw:   %d\n", settings->rotate_mode_yaw);
+	ft_printf("     rotate mode roll:  %d\n", settings->rotate_mode_roll);
+	ft_printf("     rotate mode pitch: %d\n", settings->rotate_mode_yaw);
+	ft_printf("     shift key:         %d\n", settings->keys->shift);
+	ft_printf("     roll key:          %d\n\n", settings->keys->r);
 }
 
 // @brief		switches projection
-void	kdot(t_view_settings *settings)
+void	switch_projection(t_view_settings *settings)
 {
 	if (settings->projection == 'i')
 		settings->projection = 'p';
 	else
 		settings->projection = 'i';
-	logger('l', "Projection is now ");
+	logger('i', "Projection is now ");
 	if (settings->projection == 'i')
 		ft_printf("isometric.\n");
 	else
@@ -61,8 +70,8 @@ void	kdot(t_view_settings *settings)
 }
 
 // @brief		resets settings
-void	kclear(t_view_settings *settings)
+void	quit_program(t_view_settings *settings)
 {
 	mlx_terminate(settings->mlx);
-	logger('l', "Shutting down program...");
+	logger('i', "Shutting down program...");
 }

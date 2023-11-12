@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 10:23:33 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 09:23:38 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,27 @@
 #include <fcntl.h>	// for RDONLY
 #include <math.h>
 
+void	generic_hook(void *param)
+{
+	t_view_settings		*settings;
+
+	settings = (t_view_settings *)param;
+	settings->frame++;
+	if (settings->frame)
+	{
+		if (settings->rotate_mode_pitch == 1 || \
+			settings->rotate_mode_roll == 1 || \
+			settings->rotate_mode_yaw == 1)
+			refresh_screen(settings);
+	}
+}
+
 mlx_t	*fdf_init(t_hm_node	***heightmap)
 {
 	mlx_t				*mlx;
 	mlx_image_t			*img;
 	t_view_settings		*settings;
+	t_keys_held			*keys;
 
 	mlx = mlx_init(DEFAULT_WIDTH, DEFAULT_HEIGHT, PROGRAM_NAME, true);
 	if (!mlx)
@@ -26,12 +42,15 @@ mlx_t	*fdf_init(t_hm_node	***heightmap)
 	img = mlx_new_image(mlx, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		fdf_mlx_error();
-	settings = initialize_settings(mlx, img, heightmap);
+	keys = initialize_keys();
+	settings = initialize_settings(mlx, img, heightmap, keys);
 	logger('l', "Window initialized.\n");
 	refresh_screen(settings);
 	logger('s', "Heightmap drawn.\n");
 	mlx_key_hook(mlx, &key_handler, settings);
-	logger('l', "Key input hook initalized.\n");
+	mlx_scroll_hook(mlx, &scroll_handler, settings);
+	mlx_loop_hook(mlx, &generic_hook, settings);
+	logger('l', "Input hooks initalized.\n");
 	mlx_loop(mlx);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:38:42 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/11 07:57:49 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 07:22:10 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ int	draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b)
 	while (counter < len)
 	{
 		if (pixels[counter]->x_coord < DEFAULT_WIDTH && \
-					pixels[counter]->y_coord < DEFAULT_HEIGHT)
+			pixels[counter]->y_coord < DEFAULT_HEIGHT && \
+			pixels[counter]->x_coord > 0 && pixels[counter]->y_coord > 0)
 		{
 			mlx_put_pixel(img, pixels[counter]->x_coord, \
 						pixels[counter]->y_coord, \
