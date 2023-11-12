@@ -4,10 +4,16 @@
 - ensure functionality for all test cases. pylone still does not work because its not rectangular.
 - exiting the program via esc doesnt work (segfault), while the window gets closed the program keeps running.
 
+### v0.5.3
+- various smaller improvments
+- reset settings fix
+- roll not working fix
+
 ### v0.5.2
 - various logging clarity improvements
 - terrain depth change improvements, would previously often be reduced to 0, making you need to scroll really fast to make the depth change. fixed.
 - implemented simpler format for rotation matrices.
+- made mouse rotations work better, the object now doesnt rotate randomly when you click somewhere else.
 
 ### v0.5.1
 - added cabinet projection

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:38 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 20:20:18 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 20:46:23 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	rotate_node(int *x, int *y, int *z, t_view_settings	*settings)
 
 	temp_matrix = multiply_two_matrices(\
 				get_rotation_matrix(settings->pitch, 'X'), \
-				get_rotation_matrix(settings->pitch, 'Y'));
+				get_rotation_matrix(settings->roll, 'Y'));
 	comb_matrix = multiply_two_matrices(temp_matrix, \
 				get_rotation_matrix(settings->yaw, 'Z'));
 	apply_rotation_matrix(x, y, z, comb_matrix);

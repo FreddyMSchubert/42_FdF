@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 19:14:40 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 20:49:58 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	reset_settings(t_view_settings *settings)
 	settings->rotate_mode_roll = defaults->rotate_mode_roll;
 	settings->rotate_mode_yaw = defaults->rotate_mode_yaw;
 	logger('l', "Default settings restored.\n");
+	refresh_screen(settings);
 }
 
 // @brief		displays debug log
