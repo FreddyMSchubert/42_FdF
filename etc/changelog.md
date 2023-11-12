@@ -2,8 +2,11 @@
 
 ## dodo
 - ensure functionality for all test cases. pylone still does not work because its not rectangular.
-- add second projection
 - exiting the program via esc doesnt work (segfault), while the window gets closed the program keeps running.
+
+### v0.5.1
+- added cabinet projection
+- added easier rotation using mouse
 
 ### v0.5.0 
 - added key inputs to quick, reset, switch projection, see status log, rotate the object using pitch yaw roll, zoom in and out move it around, scale up or down the height, and added a rotate mode that rotates the object on one or more axes.

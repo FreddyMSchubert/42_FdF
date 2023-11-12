@@ -3,7 +3,7 @@ NORMAL KEYS
 ✅ 259 delete    -> reset settings
 ✅ 83  s         -> status log
    256 esc       -> close window
-✅ 341 i         -> switch projection
+✅ 73  i         -> switch projection
 
 SCROLL KEYS
 

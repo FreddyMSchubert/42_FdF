@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 06:28:47 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:23:23 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:07:32 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,32 @@ static void	update_rotate_mode(t_view_settings *settings)
 		settings->yaw += rotate_speed;
 	if (settings->rotate_mode_roll == 1)
 		settings->roll += rotate_speed;
+}
+
+static t_pixel	*convert_hm_node_to_pixel_cabinet(t_hm_node *node, \
+					t_view_settings *settings)
+{
+	t_pixel		*pixel;
+	int			x;
+	int			y;
+	int			z;
+	double		angle;
+
+	angle = 0.45;
+	x = node->x_coord * settings->zoom;
+	y = node->y_coord * settings->zoom;
+	z = node->z_coord * settings->zoom * settings->depth_mod;
+	rotate_node(&x, &y, &z, settings);
+	pixel = malloc(sizeof(t_pixel));
+	if (pixel)
+	{
+		pixel->x_coord = x + z * cos(angle);
+		pixel->y_coord = y + z * sin(angle);
+		pixel->color = hex_to_rgba(node->color_hex, 255);
+	}
+	pixel->x_coord += settings->x_offset * COORD_SPREAD;
+	pixel->y_coord += settings->y_offset * COORD_SPREAD;
+	return (pixel);
 }
 
 static t_pixel	*convert_hm_node_to_pixel_iso(t_hm_node *node, \
@@ -65,7 +91,11 @@ static t_pixel	**convert_hm_node_line_to_pixel_line(t_hm_node **nodes, \
 	counter = 0;
 	while (pixels && counter < width - 1)
 	{
-		pixels[counter] = convert_hm_node_to_pixel_iso(nodes[counter], \
+		if (settings->projection == 'i')
+			pixels[counter] = convert_hm_node_to_pixel_iso(nodes[counter], \
+														settings);
+		else
+			pixels[counter] = convert_hm_node_to_pixel_cabinet(nodes[counter], \
 														settings);
 		if (pixels[counter] == NULL)
 			return (fdf_free_rec((void **)pixels), NULL);

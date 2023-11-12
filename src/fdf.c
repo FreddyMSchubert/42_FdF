@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:23:38 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:48:49 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,22 @@ void	generic_hook(void *param)
 
 	settings = (t_view_settings *)param;
 	settings->frame++;
-	if (settings->frame)
-	{
-		if (settings->rotate_mode_pitch == 1 || \
-			settings->rotate_mode_roll == 1 || \
-			settings->rotate_mode_yaw == 1)
-			refresh_screen(settings);
-	}
+	if (settings->rotate_mode_pitch == 1 || \
+		settings->rotate_mode_roll == 1 || \
+		settings->rotate_mode_yaw == 1)
+		refresh_screen(settings);
+	if (mlx_is_mouse_down(settings->mlx, MLX_MOUSE_BUTTON_LEFT))
+		mouse_handler(settings);
+}
+
+void	closing_hook(void *param)
+{
+	t_view_settings		*settings;
+
+	settings = (t_view_settings *)param;
+	fdf_free_rec_rec((void ***)settings->heightmap);
+	// mlx_terminate(settings->mlx);
+	logger('i', "Shutting down program...\n");
 }
 
 mlx_t	*fdf_init(t_hm_node	***heightmap)
@@ -50,6 +59,7 @@ mlx_t	*fdf_init(t_hm_node	***heightmap)
 	mlx_key_hook(mlx, &key_handler, settings);
 	mlx_scroll_hook(mlx, &scroll_handler, settings);
 	mlx_loop_hook(mlx, &generic_hook, settings);
+	mlx_close_hook(mlx, &closing_hook, settings);
 	logger('l', "Input hooks initalized.\n");
 	mlx_loop(mlx);
 	return (EXIT_SUCCESS);

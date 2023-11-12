@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:32:37 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:35:48 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,12 @@ void	status_log(t_view_settings *settings)
 void	switch_projection(t_view_settings *settings)
 {
 	if (settings->projection == 'i')
-		settings->projection = 'p';
+		settings->projection = 'c';
 	else
 		settings->projection = 'i';
 	logger('i', "Projection is now ");
 	if (settings->projection == 'i')
 		ft_printf("isometric.\n");
 	else
-		ft_printf("parallel.\n");
-}
-
-// @brief		resets settings
-void	quit_program(t_view_settings *settings)
-{
-	mlx_terminate(settings->mlx);
-	logger('i', "Shutting down program...");
+		ft_printf("cabinet.\n");
 }

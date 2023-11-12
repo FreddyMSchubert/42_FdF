@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 09:02:37 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:06:57 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:36:52 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 		if (keydata.key == 83)
 			status_log((t_view_settings *)param);
 		if (keydata.key == 256)
-			quit_program((t_view_settings *)param);
-		if (keydata.key == 341)
+			closing_hook((t_view_settings *)param);
+		if (keydata.key == 73)
 			switch_projection((t_view_settings *)param);
 	}
 	handle_held_keys(keydata, (t_view_settings *)param);

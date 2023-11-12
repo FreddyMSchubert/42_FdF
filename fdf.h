@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:15:24 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:37:29 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ typedef struct s_keys_held
 	int				vert;
 	int				hori;
 	int				shift;
+	int				mouse;
+	int				mouse_x;
+	int				mouse_y;
 }				t_keys_held;
 typedef struct s_view_settings
 {
@@ -107,6 +110,7 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 									t_keys_held	*keys);
 t_keys_held		*initialize_keys(void);
 void			refresh_screen(t_view_settings *settings);
+void			closing_hook(void *param);
 
 mlx_t			*fdf_init(t_hm_node	***heightmap);
 void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
@@ -115,11 +119,11 @@ void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
 
 void			key_handler(mlx_key_data_t keydata, void *settings);
 void			scroll_handler(double xdelta, double ydelta, void *param);
+void			mouse_handler(t_view_settings *settings);
 
 void			reset_settings(t_view_settings *settings);
 void			status_log(t_view_settings *settings);
 void			switch_projection(t_view_settings *settings);
-void			quit_program(t_view_settings *settings);
 
 void			edit_x_offset(t_view_settings *settings, double amount);
 void			edit_y_offset(t_view_settings *settings, double amount);

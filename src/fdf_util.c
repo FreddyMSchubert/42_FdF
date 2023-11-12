@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 09:36:06 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/12 10:19:31 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ t_keys_held	*initialize_keys(void)
 	keys->y = 0;
 	keys->vert = 0;
 	keys->hori = 0;
+	keys->mouse = 0;
+	keys->mouse_x = -1;
+	keys->mouse_y = -1;
 	return (keys);
 }
