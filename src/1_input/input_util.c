@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:40:11 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/07 08:51:15 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 06:43:11 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,20 @@ int	fdf_ft_hex_atoi(const char *s)
 		i++;
 	}
 	return (value);
+}
+
+/*
+	@brief			Counts the number of strings in a null-terminated array of strings
+	@param strings	Array of strings (char **)
+	@returns		Length of the array (excluding the terminating NULL)
+*/
+int	count_array_length(char **strings)
+{
+	int	length;
+
+	length = 0;
+	while (strings && strings[length] && \
+			ft_strncmp(strings[length], "\n", 2) != 0)
+		length++;
+	return (length);
 }

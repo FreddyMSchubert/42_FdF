@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 20:28:40 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 08:04:33 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ void	closing_hook(void *param)
 
 	settings = (t_view_settings *)param;
 	fdf_free_rec_rec((void ***)settings->heightmap);
-	// mlx_terminate(settings->mlx);
+	mlx_terminate(settings->mlx);
 	logger('i', "Shutting down program...\n");
+	// return (EXIT_SUCCESS);
 }
 
 mlx_t	*fdf_init(t_hm_node	***heightmap)
@@ -63,6 +64,7 @@ mlx_t	*fdf_init(t_hm_node	***heightmap)
 	settings = initialize_settings(mlx, img, heightmap, keys);
 	logger('l', "Window initialized.\n");
 	refresh_screen(settings);
+	draw_controls(settings);
 	logger('s', "Heightmap drawn.\n");
 	mlx_key_hook(mlx, &key_handler, settings);
 	mlx_scroll_hook(mlx, &scroll_handler, settings);
@@ -82,6 +84,7 @@ int	main(int argc, char	*argv[])
 		heightmap = fdf_get_heightmap(open(argv[1], O_RDONLY));
 		if (!heightmap)
 			return (logger('e', "Input reading failed.\n"), 0);
+		logger('l', "Converted input into node format.\n");
 		fdf_init(heightmap);
 		logger('l', "Shutting down.\n");
 		return (1);

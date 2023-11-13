@@ -1,8 +1,12 @@
 # Changelog Fdf by @fschuber
 
 ## dodo
-- ensure functionality for all test cases. pylone still does not work because its not rectangular.
 - exiting the program via esc doesnt work (segfault), while the window gets closed the program keeps running.
+- go through program considering efficiency. e.g. no need to calculate matrix every time, its the same one bruv
+
+### v0.5.4
+- Made pylone test case work & added error messages
+- added control text
 
 ### v0.5.3
 - various smaller improvments

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 20:49:58 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 07:16:00 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ void	switch_projection(t_view_settings *settings)
 		ft_printf("isometric.\n");
 	else
 		ft_printf("cabinet.\n");
+	refresh_screen(settings);
 }

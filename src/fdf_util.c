@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 20:49:22 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 07:38:00 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,31 @@ t_keys_held	*initialize_keys(void)
 	keys->mouse_rotation_x = 0;
 	keys->mouse_rotation_y = 0;
 	return (keys);
+}
+
+const char	*append_int_to_string(const char *str, int num)
+{
+	static char		buffer[256];
+	char			*num_str;
+	int				i;
+	int				j;
+
+	i = 0;
+	j = 0;
+	while (str[i] != '\0' && i < (int) sizeof(buffer) - 1)
+	{
+		buffer[i] = str[i];
+		i++;
+	}
+	num_str = ft_itoa(num);
+	if (num_str == NULL)
+	{
+		buffer[i] = '\0';
+		return (buffer);
+	}
+	while (num_str[j] != '\0' && i < (int) sizeof(buffer) - 1)
+		buffer[i++] = num_str[j++];
+	buffer[i] = '\0';
+	free(num_str);
+	return (buffer);
 }

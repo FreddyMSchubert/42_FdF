@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 20:33:53 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 07:33:51 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_hm_node		***fdf_get_heightmap(int fd);
 void			fdf_free_rec(void **blob);
 void			fdf_free_rec_rec(void ***blob);
 int				fdf_ft_hex_atoi(const char *s);
+int				count_array_length(char **strings);
 
 // Drawing functions
 
@@ -121,10 +122,13 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 									t_keys_held	*keys);
 t_keys_held		*initialize_keys(void);
 void			refresh_screen(t_view_settings *settings);
+void			draw_controls(t_view_settings	*settings);
+void			draw_status(t_view_settings	*settings);
 void			closing_hook(void *param);
 
 mlx_t			*fdf_init(t_hm_node	***heightmap);
 void			fdf_draw_lines(mlx_image_t	*img, t_pixel	***pixelmap);
+const char		*append_int_to_string(const char *str, int num);
 
 // Key + Scroll Input
 

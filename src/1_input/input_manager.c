@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 06:22:47 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 06:45:16 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /*
 	@brief				creates a new hm node based on coords and file input
-	@param str			string from input for height/color, e.g. "20,0xFF0000"; "10"
+	@param str			string from input for height/color, "20,0xFF0000"; "10"
 	@param x			x Coordinate
 	@param y			y Coordinate
 	@param terminator	serves as sentinel value. should be 0 by default
@@ -31,20 +31,15 @@ t_hm_node	*fdf_create_hm_node(char *str, int x, int y)
 
 	new_node = malloc(sizeof(t_hm_node));
 	split_str = ft_split(str, ',');
-	if (!new_node || !split_str)
+	if (!new_node || !split_str || !str)
 		return (fdf_free_rec((void **)split_str), free(new_node), NULL);
 	new_node->x_coord = x * 5;
 	new_node->y_coord = y * 5;
+	new_node->z_coord = ft_atoi(split_str[0]);
 	if (!split_str[1])
-	{
-		new_node->z_coord = ft_atoi(split_str[0]);
 		new_node->color_hex = DEFAULT_NODE_COLOR;
-	}
 	else
-	{
-		new_node->z_coord = ft_atoi(split_str[0]);
 		new_node->color_hex = fdf_ft_hex_atoi(split_str[1]);
-	}
 	fdf_free_rec((void **)split_str);
 	return (new_node);
 }
@@ -68,7 +63,7 @@ t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter)
 		node_line_len ++;
 	x_counter = 0;
 	node_line = malloc((sizeof(t_hm_node *) * node_line_len) + 1);
-	while (x_counter < node_line_len)
+	while (x_counter < node_line_len && strings[x_counter])
 	{
 		node_line[x_counter] = \
 			fdf_create_hm_node(strings[x_counter], x_counter, y_counter);
@@ -104,6 +99,9 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 		if (node_twod_arr[y_counter] == NULL)
 			return (fdf_free_rec_rec((void ***)node_twod_arr), NULL);
 		y_counter++;
+		if (count_array_length(strings[y_counter]) != \
+		count_array_length(strings[y_counter - 1]) && strings[y_counter])
+			return (ft_printf("Invalid input in line %d.\n", y_counter), NULL);
 	}
 	node_twod_arr[y_counter] = NULL;
 	return (node_twod_arr);
@@ -120,7 +118,7 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	char		***temp;
 	int			y_counter;
 
-	if (fd == -1)
+	if (fd < 0)
 		return (logger('e', "Invalid file path.\n"), NULL);
 	input_twod_arr = malloc(sizeof(char **) + 1);
 	y_counter = 0;
@@ -137,7 +135,6 @@ t_hm_node	***fdf_get_heightmap(int fd)
 	input_twod_arr[y_counter] = NULL;
 	logger('l', "Read out data from input file.\n");
 	heightmap = fdf_create_hm_node_twod_arr(input_twod_arr);
-	logger('l', "Converted input into node format.\n");
 	fdf_free_rec_rec((void ***)input_twod_arr);
 	return (heightmap);
 }
