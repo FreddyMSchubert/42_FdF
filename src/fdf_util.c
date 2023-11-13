@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 07:38:00 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:59:43 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // @brief	Prints out error message and exits program
 void	fdf_mlx_error(void)
 {
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
+	ft_printf("%s", mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
 }
 

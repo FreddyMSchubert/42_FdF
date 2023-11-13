@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:15:15 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 08:04:33 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:03:17 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void	closing_hook(void *param)
 	t_view_settings		*settings;
 
 	settings = (t_view_settings *)param;
-	fdf_free_rec_rec((void ***)settings->heightmap);
-	mlx_terminate(settings->mlx);
-	logger('i', "Shutting down program...\n");
-	// return (EXIT_SUCCESS);
+	mlx_close_window(settings->mlx);
+	if (settings->heightmap)
+	{
+		fdf_free_rec_rec((void ***)settings->heightmap);
+		settings->heightmap = NULL;
+	}
 }
 
 mlx_t	*fdf_init(t_hm_node	***heightmap)
@@ -72,6 +74,7 @@ mlx_t	*fdf_init(t_hm_node	***heightmap)
 	mlx_close_hook(mlx, &closing_hook, settings);
 	logger('l', "Input hooks initalized.\n");
 	mlx_loop(mlx);
+	mlx_terminate(settings->mlx);
 	return (EXIT_SUCCESS);
 }
 

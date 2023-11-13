@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 07:33:51 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:31:11 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 t_keys_held		*initialize_keys(void);
 void			refresh_screen(t_view_settings *settings);
 void			draw_controls(t_view_settings	*settings);
-void			draw_status(t_view_settings	*settings);
 void			closing_hook(void *param);
 
 mlx_t			*fdf_init(t_hm_node	***heightmap);

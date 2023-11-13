@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 09:02:37 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 18:55:59 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:54:24 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	key_handler(mlx_key_data_t keydata, void *param)
 {
 	if (keydata.action == MLX_PRESS)
 	{
-		if (keydata.key == 259)
+		if (keydata.key == MLX_KEY_ENTER)
 			reset_settings((t_view_settings *)param);
-		if (keydata.key == 83)
+		if (keydata.key == MLX_KEY_S)
 			status_log((t_view_settings *)param);
-		if (keydata.key == 256)
+		if (keydata.key == MLX_KEY_ESCAPE)
 			closing_hook((t_view_settings *)param);
-		if (keydata.key == 73)
+		if (keydata.key == MLX_KEY_I)
 			switch_projection((t_view_settings *)param);
 	}
 	handle_held_keys(keydata, (t_view_settings *)param);

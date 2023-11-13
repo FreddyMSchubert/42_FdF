@@ -1,8 +1,9 @@
 # Changelog Fdf by @fschuber
 
-## dodo
-- exiting the program via esc doesnt work (segfault), while the window gets closed the program keeps running.
-- go through program considering efficiency. e.g. no need to calculate matrix every time, its the same one bruv
+### v1.0.0
+- Fixed segfault when exiting error. Program now feature - complete, theoretically hand-in ready.
+- made keys easier to look at & understand
+- the program is in a good state now. will start first grading attempt now.
 
 ### v0.5.4
 - Made pylone test case work & added error messages
