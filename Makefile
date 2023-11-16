@@ -4,8 +4,8 @@ SRC = $(shell find ./src -name "*.c")
 OBJ = $(SRC:.c=.o)
 LIBMLX	:= ./lib/MLX42
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
-LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+HEADERS	:= -I ./include -I $(LIBMLX)/include -fsanitize=address -g
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -lm
 CFLAGS	:= -Wall -Werror -Wextra -Wunreachable-code -Ofast
 
 $(NAME): $(OBJ)
@@ -14,7 +14,7 @@ $(NAME): $(OBJ)
 %.o: %.c
 	@cc $(CFLAGS) -Ofast -o $@ -c $< $(HEADERS)
 
-all: $(NAME)
+all: libmlx $(NAME)
 clean:
 	@rm -f $(OBJ)
 fclean: clean
@@ -24,7 +24,6 @@ re: fclean all
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 fcomp:
-	@cd src && norminette && cd ..
 	@make fclean
 	@make libmlx
 	@make all

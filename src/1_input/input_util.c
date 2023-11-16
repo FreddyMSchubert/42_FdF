@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:40:11 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 06:43:11 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/16 17:52:52 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,16 @@ void	fdf_free_rec(void **blob)
 
 void	fdf_free_rec_rec(void ***blob)
 {
-	int		counter1;
-	int		counter2;
-
-	if (blob != NULL)
+	for (int y = 0; blob && blob[y]; y++)
 	{
-		counter1 = 0;
-		while (blob[counter1] != NULL)
+		for (int x = 0; blob[y][x]; x++)
 		{
-			counter2 = 0;
-			while (blob[counter1][counter2] != NULL)
-			{
-				free(blob[counter1][counter2]);
-				counter2++;
-			}
-			free (blob[counter1]);
-			counter1++;
+			free(blob[y][x]);
 		}
-		free(blob);
+		free(blob[y]);
 	}
+	if (blob)
+		free (blob);
 }
 
 // @brief		turns hexa strings (e.g. colors) into ints. doesnt handle neg.
@@ -91,6 +82,8 @@ int	count_array_length(char **strings)
 	length = 0;
 	while (strings && strings[length] && \
 			ft_strncmp(strings[length], "\n", 2) != 0)
+	{
 		length++;
+	}
 	return (length);
 }

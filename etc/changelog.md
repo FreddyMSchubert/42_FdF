@@ -1,5 +1,12 @@
 # Changelog Fdf by @fschuber
 
+### v1.0.1
+- Made libmlx compile with all
+- Removed unnecessary pthread compilation
+- Changed default height setting
+- made memory improvements in input_manager.c. fdf_free_rec_rec, count_array_length_get_heightmap and fdf_create_hm_node_twod_array were changed in the process
+- project is now officially now longer adhering to 42 norminette. i wont rewrite everything though, i just wont care about norminette anymore when i do rewrite something. removed norminette checks from makefile
+
 ### v1.0.0
 - Fixed segfault when exiting error. Program now feature - complete, theoretically hand-in ready.
 - made keys easier to look at & understand

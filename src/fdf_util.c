@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 19:59:43 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:54:08 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 	settings->rotate_mode_pitch = 0;
 	settings->rotate_mode_roll = 0;
 	settings->rotate_mode_yaw = 0;
-	settings->depth_mod = 10;
+	settings->depth_mod = 3;
 	settings->keys = keys;
 	settings->mlx = mlx;
 	settings->img = img;
