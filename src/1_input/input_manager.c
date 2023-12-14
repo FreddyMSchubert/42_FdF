@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 06:36:04 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/16 17:52:42 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 06:21:58 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,8 @@ t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter)
 			strings[node_line_len][0] != '\0' && \
 			strings[node_line_len][0] != '\n')
 		node_line_len ++;
-	node_line_len--;
 	x_counter = 0;
 	node_line = malloc(sizeof(t_hm_node *) * (node_line_len + 1));
-	if (!node_line)
-		return (NULL);
-	node_line[node_line_len] = NULL;
 	while (x_counter < node_line_len && strings[x_counter])
 	{
 		node_line[x_counter] = \
@@ -75,6 +71,7 @@ t_hm_node	**fdf_create_hm_node_line(char **strings, int y_counter)
 			return (fdf_free_rec((void **)node_line), NULL);
 		x_counter++;
 	}
+	node_line[x_counter] = NULL;
 	return (node_line);
 }
 
@@ -89,24 +86,24 @@ t_hm_node	***fdf_create_hm_node_twod_arr(char ***strings)
 	t_hm_node	***node_twod_arr;
 
 	node_col_len = 0;
-	while (strings[0][node_col_len])
+	while (strings[node_col_len])
 		node_col_len++;
-	node_col_len--;
 	y_counter = 0;
 	node_twod_arr = malloc(sizeof(t_hm_node **) * (node_col_len + 1));
 	if (!node_twod_arr)
 		return (NULL);
-	node_twod_arr[node_col_len] = NULL;
 	while (y_counter < node_col_len)
 	{
-		if (y_counter > 0 && count_array_length(strings[y_counter]) != \
-		count_array_length(strings[y_counter - 1]) && strings[y_counter])
-			return (ft_printf("Invalid input in line %d.\n", y_counter), NULL);
-		node_twod_arr[y_counter] = fdf_create_hm_node_line(strings[y_counter], y_counter);
+		node_twod_arr[y_counter] = \
+			fdf_create_hm_node_line(strings[y_counter], y_counter);
 		if (node_twod_arr[y_counter] == NULL)
 			return (fdf_free_rec_rec((void ***)node_twod_arr), NULL);
 		y_counter++;
+		if (y_counter < node_col_len && count_array_length(strings[y_counter]) \
+			!= count_array_length(strings[y_counter - 1]) && strings[y_counter])
+			return (ft_printf("Invalid input in line %d.\n", y_counter), NULL);
 	}
+	node_twod_arr[y_counter] = NULL;
 	return (node_twod_arr);
 }
 
@@ -118,32 +115,21 @@ t_hm_node	***fdf_get_heightmap(int fd)
 {
 	t_hm_node	***heightmap;
 	char		***input_twod_arr;
-	char		***temp;
-	char		*gnl_return;
 	int			y_counter;
 
 	if (fd < 0)
 		return (logger('e', "Invalid file path.\n"), NULL);
-	input_twod_arr = malloc(sizeof(char **) + 1);
+	input_twod_arr = malloc(sizeof(char **));
 	y_counter = 0;
-	gnl_return = get_next_line(fd);
-	if (gnl_return != NULL)
-		input_twod_arr[y_counter] = ft_split(gnl_return, ' ');
-	free(gnl_return);
+	input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
 	while (input_twod_arr[y_counter] != NULL)
 	{
-		temp = realloc(input_twod_arr, (sizeof(char **) * (y_counter + 2)));
-		if (temp == NULL)
-			return (fdf_free_rec_rec((void ***)input_twod_arr), NULL);
-		input_twod_arr = temp;
-		input_twod_arr[y_counter + 1] = NULL;
+		input_twod_arr = realloc(input_twod_arr, \
+				(sizeof(char ***) * (y_counter + 2)));
 		y_counter++;
-		gnl_return = get_next_line(fd);
-		if (gnl_return != NULL)
-			input_twod_arr[y_counter] = ft_split(gnl_return, ' ');
-		free(gnl_return);
+		input_twod_arr[y_counter] = ft_split(get_next_line(fd), ' ');
 	}
-	input_twod_arr[y_counter] = NULL;
+	input_twod_arr[y_counter] = NULL;		// technically not needed
 	logger('l', "Read out data from input file.\n");
 	heightmap = fdf_create_hm_node_twod_arr(input_twod_arr);
 	fdf_free_rec_rec((void ***)input_twod_arr);

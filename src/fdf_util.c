@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 08:30:52 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/16 16:54:08 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 06:38:45 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	fdf_mlx_error(void)
 */
 void	logger(char type, char *message)
 {
+	if (VERBOSE == 0)
+		return ;
 	if (type == 'e')
 		ft_printf("\033[31mERROR\033[0m: ");
 	if (type == 'l')
@@ -52,7 +54,6 @@ t_view_settings	*initialize_settings(mlx_t	*mlx, mlx_image_t	*img, \
 	settings->yaw = 0;
 	settings->pitch = 0;
 	settings->roll = 0;
-	settings->frame = 0;
 	settings->rotate_mode_pitch = 0;
 	settings->rotate_mode_roll = 0;
 	settings->rotate_mode_yaw = 0;
@@ -78,10 +79,6 @@ t_keys_held	*initialize_keys(void)
 	keys->vert = 0;
 	keys->hori = 0;
 	keys->mouse = 0;
-	keys->mouse_x = -1;
-	keys->mouse_y = -1;
-	keys->mouse_rotation_x = 0;
-	keys->mouse_rotation_y = 0;
 	return (keys);
 }
 

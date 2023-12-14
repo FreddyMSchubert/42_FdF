@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 10:10:39 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 07:16:00 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 06:41:39 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	status_log(t_view_settings *settings)
 	ft_printf("     pitch:             %d\n", settings->pitch);
 	ft_printf("     roll:              %d\n", settings->roll);
 	ft_printf("     depth:             %d\n", settings->depth_mod);
-	ft_printf("     frame:             %d\n", settings->frame);
 	ft_printf("     rotate mode yaw:   %d\n", settings->rotate_mode_yaw);
 	ft_printf("     rotate mode roll:  %d\n", settings->rotate_mode_roll);
 	ft_printf("     rotate mode pitch: %d\n", settings->rotate_mode_yaw);

@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 11:02:54 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 19:12:16 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 06:44:20 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	zoom(t_view_settings *settings, double amount)
 	if (settings->zoom != prevzoom)
 	{
 		logger('l', "Zoomed. ");
-		ft_printf("Zoom is now %d, was %d\n", settings->zoom, prevzoom);
 	}
 }
 
@@ -39,7 +38,6 @@ void	edit_x_offset(t_view_settings *settings, double amount)
 		settings->x_offset = settings->mlx->width - 1;
 	refresh_screen(settings);
 	logger('l', "Changed x offset ");
-	ft_printf("to %d.\n", settings->x_offset);
 }
 
 // @brief		changes y offset
@@ -52,7 +50,6 @@ void	edit_y_offset(t_view_settings *settings, double amount)
 		settings->y_offset = settings->mlx->height - 1;
 	refresh_screen(settings);
 	logger('l', "Changed y offset ");
-	ft_printf("to %d.\n", settings->y_offset);
 }
 
 // @brief		changes depth
@@ -71,5 +68,4 @@ void	edit_depth(t_view_settings *settings, double amount)
 	settings->depth_mod += increment;
 	refresh_screen(settings);
 	logger('l', "Changed terrain depth ");
-	ft_printf("to %d.\n", settings->depth_mod);
 }

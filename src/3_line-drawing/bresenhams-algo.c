@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:38:42 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/12 07:22:10 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:40:05 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,142 +14,73 @@
 
 #include <stdio.h>
 
-static t_pixel	*create_new_t_pixel(int x, int y, int color)
-{
-	t_pixel		*new_pixel;
-
-	new_pixel = malloc(sizeof(t_pixel));
-	if (new_pixel)
-	{
-		new_pixel->x_coord = x;
-		new_pixel->y_coord = y;
-		new_pixel->color = color;
-		return (new_pixel);
-	}
-	return (NULL);
-}
-
 // @brief		Returns ltr and rtl lines where x direction is dominant as array
-static t_pixel	**draw_line_dom_x(t_pixel *a, t_pixel *b)
+static void	draw_line_dom_x(t_pixel *a, t_pixel *b, mlx_image_t *img)
 {
-	t_pixel		**pixels;
-	t_pixel		curr_pos;
+	t_pixel		pos;
 	int			error;
-	int			i;
+	int			curr_color;
 
-	pixels = malloc(sizeof(t_pixel *) * (abs(b->x_coord - a->x_coord) + 1));
-	if (!pixels)
-		return (NULL);
-	curr_pos = *a;
+	pos = *a;
 	error = abs(b->x_coord - a->x_coord) / 2;
-	i = 0;
-	while (curr_pos.x_coord != b->x_coord)
+	while (pos.x_coord != b->x_coord)
 	{
-		pixels[i++] = create_new_t_pixel(curr_pos.x_coord, curr_pos.y_coord, \
-										curr_pos.color);
-		curr_pos.x_coord += smaller_than(a->x_coord, b->x_coord);
+		curr_color = get_grad_at_step(abs(b->x_coord - a->x_coord), \
+									a->color, b->color, \
+									pos.x_coord - a->x_coord);
+		if (pos.x_coord >= 0 && pos.y_coord >= 0 && \
+				pos.x_coord < DEFAULT_WIDTH && pos.y_coord < DEFAULT_HEIGHT)
+			mlx_put_pixel(img, pos.x_coord, pos.y_coord, curr_color);
+		pos.x_coord += smaller_than(a->x_coord, b->x_coord);
 		error = error - abs(b->y_coord - a->y_coord);
 		if (error < 0)
 		{
-			curr_pos.y_coord += smaller_than(a->y_coord, b->y_coord);
+			pos.y_coord += smaller_than(a->y_coord, b->y_coord);
 			error = error + abs(b->x_coord - a->x_coord);
 		}
 	}
-	pixels[i] = b;
-	return (pixels);
+	if (b->x_coord >= 0 && b->y_coord >= 0 && \
+		b->x_coord < DEFAULT_WIDTH && b->y_coord < DEFAULT_HEIGHT)
+		mlx_put_pixel(img, b->x_coord, b->y_coord, b->color);
 }
 
 // @brief		Returns btt and ttb lines where y direction is dominant as array
-static t_pixel	**draw_line_dom_y(t_pixel *a, t_pixel *b)
+static void	draw_line_dom_y(t_pixel *a, t_pixel *b, mlx_image_t *img)
 {
-	t_pixel		**pixels;
-	t_pixel		curr_pos;
+	t_pixel		pos;
 	int			error;
-	int			i;
+	int			curr_color;
 
-	pixels = malloc(sizeof(t_pixel *) * (abs(b->y_coord - a->y_coord) + 1));
-	if (!pixels)
-		return (free(pixels), NULL);
-	curr_pos = *a;
+	pos = *a;
 	error = abs(b->y_coord - a->y_coord) / 2;
-	i = 0;
-	while (curr_pos.y_coord != b->y_coord)
+	while (pos.y_coord != b->y_coord)
 	{
-		pixels[i++] = create_new_t_pixel(curr_pos.x_coord, curr_pos.y_coord, \
-										curr_pos.color);
-		curr_pos.y_coord += smaller_than(a->y_coord, b->y_coord);
+		curr_color = get_grad_at_step(abs(b->y_coord - a->y_coord), \
+									a->color, b->color, \
+									pos.y_coord - a->y_coord);
+		if (pos.x_coord >= 0 && pos.y_coord >= 0 && \
+				pos.x_coord < DEFAULT_WIDTH && pos.y_coord < DEFAULT_HEIGHT)
+			mlx_put_pixel(img, pos.x_coord, pos.y_coord, curr_color);
+		pos.y_coord += smaller_than(a->y_coord, b->y_coord);
 		error = error - abs(b->x_coord - a->x_coord);
 		if (error < 0)
 		{
-			curr_pos.x_coord += smaller_than(a->x_coord, b->x_coord);
+			pos.x_coord += smaller_than(a->x_coord, b->x_coord);
 			error = error + abs(b->y_coord - a->y_coord);
 		}
 	}
-	pixels[i] = b;
-	return (pixels);
-}
-
-/*
-	@brief		Takes in two coordinates and interpolates their positions and color. \n
-				Not designed to handle anything over including INT MAX or under 0
-	@returns	Dynamically allocated array with all pixels 
-				between including a and b.
-*/
-static t_pixel	**get_colored_pixel_array(t_pixel *a, t_pixel *b)
-{
-	t_pixel		**pixels;
-	int			*colors;
-	int			index;
-
-	index = -1;
-	if (abs(b->x_coord - a->x_coord) >= abs(b->y_coord - a->y_coord))
-	{
-		pixels = draw_line_dom_x(a, b);
-		colors = get_grad(abs(b->x_coord - a->x_coord) + 1, a->color, b->color);
-		while (pixels && colors && ++index < abs(b->x_coord - a->x_coord))
-			pixels[index]->color = colors[index];
-	}
-	else
-	{
-		pixels = draw_line_dom_y(a, b);
-		colors = get_grad(abs(b->y_coord - a->y_coord) + 1, a->color, b->color);
-		while (pixels && colors && ++index < abs(b->y_coord - a->y_coord))
-			pixels[index]->color = colors[index];
-	}
-	if (!pixels || !colors)
-		return (free(pixels), free(colors), NULL);
-	free (colors);
-	return (pixels);
+	if (b->x_coord >= 0 && b->y_coord >= 0 && \
+		b->x_coord < DEFAULT_WIDTH && b->y_coord < DEFAULT_HEIGHT)
+		mlx_put_pixel(img, b->x_coord, b->y_coord, b->color);
 }
 
 /*
 	@brief		Draws a line between two pixels on screen img
 */
-int	draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b)
+void	draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b)
 {
-	t_pixel		**pixels;
-	int			len;
-	int			counter;
-
-	pixels = get_colored_pixel_array(a, b);
-	if (!pixels)
-		return (0);
 	if (abs(b->x_coord - a->x_coord) >= abs(b->y_coord - a->y_coord))
-		len = abs(b->x_coord - a->x_coord) + 1;
+		draw_line_dom_x(a, b, img);
 	else
-		len = abs(b->y_coord - a->y_coord) + 1;
-	counter = 0;
-	while (counter < len)
-	{
-		if (pixels[counter]->x_coord < DEFAULT_WIDTH && \
-			pixels[counter]->y_coord < DEFAULT_HEIGHT && \
-			pixels[counter]->x_coord > 0 && pixels[counter]->y_coord > 0)
-		{
-			mlx_put_pixel(img, pixels[counter]->x_coord, \
-						pixels[counter]->y_coord, \
-						pixels[counter]->color);
-		}
-		counter ++;
-	}
-	return (1);
+		draw_line_dom_y(a, b, img);
 }

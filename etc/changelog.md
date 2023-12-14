@@ -1,5 +1,14 @@
 # Changelog Fdf by @fschuber
 
+### v1.0.2
+- some makefile changes & improvements
+- stopped mlx from relinking
+- improved line drawing / bresenham -> instead of allocating a pixel and a colors string for each drawn line, i now just draw immediatel. sizeable reduction is total code amount.
+- removed mouse rotation input method. it was never good anyways, i could have properl implemented the logic, but it wasnt really necessary
+- remove frame tracking as it was unused
+- reduced rotation calculation complexity
+- generally removed fluff
+
 ### v1.0.1
 - Made libmlx compile with all
 - Removed unnecessary pthread compilation

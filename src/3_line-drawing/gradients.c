@@ -6,7 +6,7 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 08:51:23 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/10 12:32:32 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 05:35:01 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ static double	get_gradient_step(int l, int c1, int c2, char col)
 		return (c1);
 	step = (double)(get_col_rgba(c2, col) - get_col_rgba(c1, col)) / (l - 1);
 	return (step);
+}
+
+/*
+	@returns		Dynamically allocated array of length l containing a
+					color feed between including the colors c1 and c2
+*/
+int	get_grad_at_step(int l, int c1, int c2, int step)
+{
+	return (get_rgba(\
+			get_col_rgba(c1, 'r') + step * get_gradient_step(l, c1, c2, 'r'), \
+			get_col_rgba(c1, 'g') + step * get_gradient_step(l, c1, c2, 'g'), \
+			get_col_rgba(c1, 'b') + step * get_gradient_step(l, c1, c2, 'b'), \
+			get_col_rgba(c1, 'a') + step * get_gradient_step(l, c1, c2, 'a')));
 }
 
 /*

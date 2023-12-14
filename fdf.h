@@ -6,12 +6,15 @@
 /*   By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 07:18:51 by fschuber          #+#    #+#             */
-/*   Updated: 2023/11/13 19:31:11 by fschuber         ###   ########.fr       */
+/*   Updated: 2023/12/14 06:39:10 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+
+// if this is 1, the program will log a bunch of stuff
+# define VERBOSE 0
 
 # include "src/imports/get_next_line/get_next_line.h"
 # include "src/imports/ft_printf/ft_printf.h"
@@ -54,10 +57,6 @@ typedef struct s_keys_held
 	int				hori;
 	int				shift;
 	int				mouse;
-	int				mouse_x;
-	int				mouse_y;
-	int				mouse_rotation_x;
-	int				mouse_rotation_y;
 }				t_keys_held;
 typedef struct s_view_settings
 {
@@ -69,7 +68,6 @@ typedef struct s_view_settings
 	int				pitch;
 	int				roll;
 	int				depth_mod;
-	int				frame;
 	int				rotate_mode_pitch;
 	int				rotate_mode_roll;
 	int				rotate_mode_yaw;
@@ -94,7 +92,8 @@ int				count_array_length(char **strings);
 // Drawing functions
 
 int				*get_grad(int l, int c1, int c2);
-int				draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b);
+int				get_grad_at_step(int l, int c1, int c2, int step);
+void			draw_line(mlx_image_t *img, t_pixel *a, t_pixel *b);
 int				smaller_than(int nbr1, int nbr2);
 
 int				get_rgba(int r, int g, int b, int a);
@@ -106,12 +105,9 @@ int				hex_to_rgba(int hex, int alpha);
 
 t_pixel			***convert_hm_node_grid_to_pixel_grid(t_hm_node ***nodes, \
 					t_view_settings *settings);
-void			rotate_node(int *x, int *y, int *z, \
-					t_view_settings	*settings);
-t_matrix3x3		multiply_two_matrices(t_matrix3x3 matrix1, t_matrix3x3 matrix2);
-void			apply_rotation_matrix(int *x, int *y, int *z, \
-										t_matrix3x3 matrix);
-t_matrix3x3		get_rotation_matrix(double angle, char axis);
+void 			apply_rotation(int *x, int *y, int *z, double pitch, \
+					double roll, double yaw);
+void			update_rotate_mode(t_view_settings *settings);
 
 // Main loop / window management
 
@@ -133,8 +129,6 @@ const char		*append_int_to_string(const char *str, int num);
 
 void			key_handler(mlx_key_data_t keydata, void *settings);
 void			scroll_handler(double xdelta, double ydelta, void *param);
-void			mouse_handler(t_view_settings *settings, \
-								int is_first_frame_of_click);
 
 void			reset_settings(t_view_settings *settings);
 void			status_log(t_view_settings *settings);
