@@ -88,4 +88,4 @@ make fcomp                    // compile project
 
 ---
 
-Made by Frederick Schubert: fschuber@student.42heilbronn.de | http://frederickschubert.de
+Made by Frederick Schubert: fschuber@student.42heilbronn.de | https://frederickschubert.de
